@@ -23,7 +23,7 @@ const populatedAriHomeDir = {
 
 vi.mock("os", () => ({
   default: {
-    homedir: vi.fn().mockReturnValue("/home/user"),
+    homedir: vi.fn().mockImplementation(() => homeDir),
   },
 }));
 

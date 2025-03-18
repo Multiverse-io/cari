@@ -7,8 +7,6 @@ import {
   getAriDir,
   directoryExists,
   ensureDirectoryExists,
-  organizeRulesByDirectory,
-  RuleTreeNode,
 } from "./file.js";
 
 // Mock fs-extra and os

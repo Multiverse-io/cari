@@ -3,7 +3,12 @@ import { directoryExists, getAriHomeDir, getProjectDir } from "./file.js";
 import fs from "fs-extra";
 import { glob } from "glob";
 import chalk from "chalk";
-import { cloneRepo, pullLatestChanges, RepoDetails } from "./git.js";
+import {
+  cloneRepo,
+  pullLatestChanges,
+  RepoDetails,
+  SimpleRepoDetails,
+} from "./git.js";
 import { happyMessage } from "./user-message.js";
 import { warningMessage } from "./user-message.js";
 import { RepoRules, RuleFilePath, SelectedRules } from "./ari-yaml.js";
@@ -32,7 +37,7 @@ export const flattenRepoRules = (repoRules: RepoRules): FlatRepoRule[] => {
 // 1. There are no rules in a repo
 // 2. There are rules files beyond one level of nesting that will be missed
 export const getCentralRules = async (
-  repoDetails: RepoDetails[]
+  repoDetails: SimpleRepoDetails[]
 ): Promise<RepoRules[]> => {
   return repoDetails.map((repoDetail) => {
     const { orgName, repoName, repoDir } = repoDetail;

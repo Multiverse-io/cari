@@ -19,13 +19,12 @@ export const init = async (): Promise<void> => {
   try {
     const repoUrls = await askUserToSelectRepos();
     await createAriHomeDirIfNotExists();
-    const allRepoDetails = await Promise.all(
-      repoUrls.map(async (repoUrl) => {
-        const repoDetails = extractRepoDetails(repoUrl);
-        await cloneRulesRepoIfNotExists(repoDetails.repoDir, repoUrl);
-        return repoDetails;
-      })
+    const allRepoDetails = repoUrls.map((repoUrl) =>
+      extractRepoDetails(repoUrl)
     );
+    for (const repoDetails of allRepoDetails) {
+      await cloneRulesRepoIfNotExists(repoDetails.repoDir, repoDetails.repoUrl);
+    }
     const centralRules = await getCentralRules(allRepoDetails);
     const selectedRules = await askUserToSelectRules(centralRules);
     await writeRulesToAriYaml(selectedRules);

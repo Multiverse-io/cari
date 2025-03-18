@@ -4,10 +4,18 @@ import path from "path";
 import { getCentralRepoDir } from "./rules.js";
 
 export interface RepoDetails {
+  repoUrl: string;
   repoDir: string;
   repoName: string;
   orgName: string;
 }
+
+export interface SimpleRepoDetails {
+  repoDir: string;
+  repoName: string;
+  orgName: string;
+}
+
 /**
  * Get the repository directory name from a repository URL
  */
@@ -36,6 +44,7 @@ export const extractRepoDetails = (repoUrl: string): RepoDetails => {
   const { orgName, repoName } = extractOrgAndRepoFromRepoUrl(repoUrl);
   const repoDir = getCentralRepoDir(ariDir, orgName, repoName);
   return {
+    repoUrl,
     repoDir,
     repoName,
     orgName,

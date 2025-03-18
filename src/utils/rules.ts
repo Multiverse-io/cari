@@ -1,5 +1,5 @@
 import path from "path";
-import { directoryExists, getAriDir, getProjectDir } from "./file.js";
+import { directoryExists, getAriHomeDir, getProjectDir } from "./file.js";
 import fs from "fs-extra";
 import { glob } from "glob";
 import chalk from "chalk";
@@ -61,7 +61,7 @@ export const updateAndGetCentralRulesFromAriYaml = async (
   const repoDetails = allRules.flatMap((rule) => ({
     orgName: rule.org,
     repoName: rule.repo,
-    repoDir: getCentralRepoDir(getAriDir(), rule.org, rule.repo),
+    repoDir: getCentralRepoDir(getAriHomeDir(), rule.org, rule.repo),
   }));
   const distinctRepoDetails = _.uniqWith(repoDetails, _.isEqual);
   for (const repoDetail of distinctRepoDetails) {
@@ -109,7 +109,7 @@ const getCentralRepoRulePath = (
   relativeFilePath: RuleFilePath
 ) => {
   return path.join(
-    getAriDir(),
+    getAriHomeDir(),
     org,
     repo,
     "rules",

@@ -28,7 +28,7 @@ export const getHomeDir = (): string => {
 /**
  * Get the ARI directory path
  */
-export const getAriDir = (): string => {
+export const getAriHomeDir = (): string => {
   return path.join(getHomeDir(), ".ari");
 };
 
@@ -41,7 +41,7 @@ export const getAriDir = (): string => {
  * @returns {Promise<void>} A promise that resolves when the directory check/creation is complete
  */
 export const createAriHomeDirIfNotExists = async (): Promise<void> => {
-  const ariDir = getAriDir();
+  const ariDir = getAriHomeDir();
   const ariDirExists = await directoryExists(ariDir);
   if (!ariDirExists) {
     console.log(chalk.yellow(`Creating .ari directory at ${ariDir}`));
@@ -74,16 +74,3 @@ export const directoryExists = async (dirPath: string): Promise<boolean> => {
 export const ensureDirectoryExists = async (dirPath: string): Promise<void> => {
   await fs.ensureDir(dirPath);
 };
-
-/**
- * Organize rule files by directory structure
- * @param filePaths Array of file paths
- * @returns Object with directory structure
- */
-export interface RuleTreeNode {
-  path: string;
-  name: string;
-  description?: string;
-  type: "file" | "directory";
-  children?: RuleTreeNode[];
-}

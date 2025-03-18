@@ -1,5 +1,5 @@
 import { simpleGit, SimpleGit } from "simple-git";
-import { getAriDir } from "./file.js";
+import { getAriHomeDir } from "./file.js";
 import path from "path";
 import { getCentralRepoDir } from "./rules.js";
 
@@ -32,7 +32,7 @@ export const extractOrgAndRepoFromRepoUrl = (
  * Get the central rules repository directory path
  */
 export const extractRepoDetails = (repoUrl: string): RepoDetails => {
-  const ariDir = getAriDir();
+  const ariDir = getAriHomeDir();
   const { orgName, repoName } = extractOrgAndRepoFromRepoUrl(repoUrl);
   const repoDir = getCentralRepoDir(ariDir, orgName, repoName);
   return {
@@ -51,7 +51,7 @@ export const cloneRepo = async (
 ): Promise<void> => {
   try {
     const git: SimpleGit = simpleGit();
-    const ariDir = getAriDir();
+    const ariDir = getAriHomeDir();
 
     // Create parent directory if it doesn't exist
     const parentDir = path.dirname(repoDir);

@@ -4,7 +4,7 @@ import os from "os";
 import fs from "fs-extra";
 import {
   getHomeDir,
-  getAriDir,
+  getAriHomeDir,
   directoryExists,
   ensureDirectoryExists,
 } from "./file.js";
@@ -28,7 +28,7 @@ describe("File Utilities", () => {
 
   describe("getAriDir", () => {
     it("should return the ARI directory path", () => {
-      expect(getAriDir()).toBe("/home/user/.ari");
+      expect(getAriHomeDir()).toBe("/home/user/.ari");
     });
   });
 

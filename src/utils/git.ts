@@ -19,7 +19,7 @@ export interface SimpleRepoDetails {
 /**
  * Get the repository directory name from a repository URL
  */
-export const extractOrgAndRepoFromRepoUrl = (
+const extractOrgAndRepoFromRepoUrl = (
   repoUrl: string
 ): {
   orgName: string;

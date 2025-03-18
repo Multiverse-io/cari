@@ -2,11 +2,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import mockFs from "mock-fs";
 import fs from "fs-extra";
 import yaml from "yaml";
-import { homeDir, projectDir } from "@test/test-utils.js";
-import { AriYaml } from "utils/ari-yaml.js";
+import { homeDir, projectDir } from "../__test__/test-utils.js";
+import { AriYaml } from "../utils/ari-yaml.js";
 import { update } from "./update.js";
 import os from "os";
-import { errorMessage, warningMessage } from "~/utils/user-message.js";
+import { errorMessage, warningMessage } from "../utils/user-message.js";
 
 vi.mock("~/utils/user-message.js", () => ({
   errorMessage: vi.fn(),
@@ -59,9 +59,12 @@ describe("update command", () => {
     };
     const ariYaml = yaml.stringify(ariYamlObj);
     mockFs({
+      // New rule content in the central rules repo
       [`${homeDir}/.ari/my-org/my-rules-repo/rules/category/some-rule.mdc`]:
         "New rule content!",
+      // Config file for the project
       [`${projectDir}/.ari.yaml`]: ariYaml,
+      // Old rule content in the project which we expect to get overridded with the new rule content
       [`${projectDir}/.cursor/rules/my-org/my-rules-repo/category/some-rule.mdc`]:
         "Old rule content",
     });

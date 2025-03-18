@@ -1,8 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
 import os from "os";
-import { glob } from "glob";
-import { Rule } from "../types/index.js";
 import { warningMessage } from "./user-message.js";
 
 /**

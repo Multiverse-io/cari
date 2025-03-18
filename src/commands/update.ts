@@ -1,4 +1,3 @@
-import { RepoConfig } from "../types/index.js";
 import { happyMessage } from "~/utils/user-message.js";
 import {
   AriYaml,

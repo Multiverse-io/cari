@@ -177,7 +177,7 @@ describe("update command", () => {
         ],
       },
     ];
-    const exepctedExcludeRules = [
+    const expectedExcludedRules = [
       {
         org: "my-org",
         repo: "my-rules-repo",
@@ -190,7 +190,7 @@ describe("update command", () => {
       },
     ];
     expect(updatedAriYaml.rules.include).toEqual(expectedIncludeRules);
-    expect(updatedAriYaml.rules.exclude).toEqual(exepctedExcludeRules);
+    expect(updatedAriYaml.rules.exclude).toEqual(expectedExcludedRules);
   });
 
   it("should warn the user if there are rules in their .ari.yaml that are not in the central repo", async () => {

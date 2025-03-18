@@ -27,13 +27,13 @@ export const getHomeDir = (): string => {
  * Get the ARI directory path
  */
 export const getAriHomeDir = (): string => {
-  return path.join(getHomeDir(), ".ari");
+  return path.join(getHomeDir(), ".cari");
 };
 
 /**
  * Creates the ARI home directory if it doesn't already exist
  *
- * This function checks if the .ari directory exists in the user's home directory.
+ * This function checks if the .cari directory exists in the user's home directory.
  * If it doesn't exist, it creates the directory and logs a message to the console.
  *
  * @returns {Promise<void>} A promise that resolves when the directory check/creation is complete
@@ -42,7 +42,7 @@ export const createAriHomeDirIfNotExists = async (): Promise<void> => {
   const ariDir = getAriHomeDir();
   const ariDirExists = await directoryExists(ariDir);
   if (!ariDirExists) {
-    warningMessage(`Creating .ari directory at ${ariDir}`);
+    warningMessage(`Creating .cari directory at ${ariDir}`);
     await ensureDirectoryExists(ariDir);
   }
 };

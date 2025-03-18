@@ -11,7 +11,12 @@ import {
 } from "./git.js";
 import { happyMessage } from "./user-message.js";
 import { warningMessage } from "./user-message.js";
-import { AriYaml, RepoRules, RuleFilePath, SelectedRules } from "./ari-yaml.js";
+import {
+  CariYaml,
+  RepoRules,
+  RuleFilePath,
+  SelectedRules,
+} from "./cari-yaml.js";
 import _ from "lodash";
 
 export interface FlatSelectedRules {
@@ -60,7 +65,7 @@ export const getCentralRules = async (
 };
 
 export const updateAndGetCentralRulesFromAriYaml = async (
-  ariYaml: AriYaml
+  ariYaml: CariYaml
 ): Promise<RepoRules[]> => {
   const repoDetails = ariYaml.repos;
   for (const repoDetail of repoDetails) {
@@ -156,7 +161,7 @@ const excludeRulesNotInCentralRules = (
           if (!ruleIncludedCentrally) {
             warningMessage(
               `The following rules in your configuration are not found in the central repository ` +
-                `and will be removed from .ari.yaml, but the rule files will remain in your project: ` +
+                `and will be removed from .cari.yaml, but the rule files will remain in your project: ` +
                 `${relativeFilePath.categoryFolderName}/${relativeFilePath.fileName}`
             );
           }

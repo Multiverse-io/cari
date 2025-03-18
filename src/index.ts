@@ -11,7 +11,7 @@ import { update } from "./commands/update.js";
 const program = new Command();
 
 program
-  .name("ari")
+  .name("cari")
   .description("AI Rules Installer - A CLI tool for installing AI rules")
   .version("1.0.0");
 

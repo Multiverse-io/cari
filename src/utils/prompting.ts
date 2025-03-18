@@ -6,7 +6,7 @@ import {
 import { checkbox, input } from "@inquirer/prompts";
 import { groupBy } from "./utils.js";
 import _ from "lodash";
-import { RepoRules, RuleFilePath, SelectedRules } from "./ari-yaml.js";
+import { RepoRules, RuleFilePath, SelectedRules } from "./cari-yaml.js";
 
 type PromptChoice<T extends UserChoice> = {
   name: string;

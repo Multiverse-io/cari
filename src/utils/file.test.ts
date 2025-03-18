@@ -28,7 +28,7 @@ describe("File Utilities", () => {
 
   describe("getAriDir", () => {
     it("should return the ARI directory path", () => {
-      expect(getAriHomeDir()).toBe("/home/user/.ari");
+      expect(getAriHomeDir()).toBe("/home/user/.cari");
     });
   });
 

@@ -9,7 +9,7 @@ import {
   getCentralRules,
   writeRulesToProject,
 } from "../utils/rules.js";
-import { writeNewAriYamlFile, writeRulesToAriYaml } from "../utils/ari-yaml.js";
+import { writeNewCariYamlFile } from "../utils/cari-yaml.js";
 import { errorMessage, happyMessage } from "../utils/user-message.js";
 
 /**
@@ -27,7 +27,7 @@ export const init = async (): Promise<void> => {
     }
     const centralRules = await getCentralRules(allRepoDetails);
     const selectedRules = await askUserToSelectRules(centralRules);
-    await writeNewAriYamlFile({
+    await writeNewCariYamlFile({
       repos: allRepoDetails,
       rules: selectedRules,
     });

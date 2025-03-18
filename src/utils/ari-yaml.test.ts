@@ -4,7 +4,11 @@ import yaml from "yaml";
 import fs from "fs-extra";
 import mockFs from "mock-fs";
 import path from "path";
-import { getAriYaml, SelectedRules, writeRulesToAriYaml } from "./ari-yaml.js";
+import {
+  getCariYaml,
+  SelectedRules,
+  writeRulesToCariYaml,
+} from "./cari-yaml.js";
 
 const selectedRules: SelectedRules = {
   include: [
@@ -63,17 +67,9 @@ const existingYaml = {
   },
 };
 
-const existingYamlWithExtras = {
-  ...existingYaml,
-  otherConfig: {
-    setting1: "value1",
-    setting2: true,
-  },
-};
-
 const projectDir = "/home/user/my-project";
 
-const ariYamlPath = path.join(projectDir, ".ari.yaml");
+const cariYamlPath = path.join(projectDir, ".cari.yaml");
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -86,15 +82,15 @@ afterEach(() => {
 });
 
 describe("writeSelectedRulesToProject", () => {
-  it("should create the .ari.yaml file in the project if it doesn't exist", async () => {
+  it("should create the .cari.yaml file in the project if it doesn't exist", async () => {
     mockFs({
       [projectDir]: {},
     });
 
-    await writeRulesToAriYaml(selectedRules);
+    await writeRulesToCariYaml(selectedRules);
 
-    expect(fs.existsSync(ariYamlPath)).toBe(true);
-    const fileContent = fs.readFileSync(ariYamlPath, "utf8");
+    expect(fs.existsSync(cariYamlPath)).toBe(true);
+    const fileContent = fs.readFileSync(cariYamlPath, "utf8");
     const yamlContent = yaml.parse(fileContent);
 
     expect(yamlContent).toHaveProperty("rules");
@@ -106,24 +102,24 @@ describe("writeSelectedRulesToProject", () => {
 
   it("should only overwrite the rules section of the existing yaml file", async () => {
     mockFs({
-      [ariYamlPath]: yaml.stringify(existingYamlWithExtras),
+      [cariYamlPath]: yaml.stringify(existingYaml),
     });
-    await writeRulesToAriYaml(selectedRules);
-    expect(fs.existsSync(ariYamlPath)).toBe(true);
-    const fileContent = fs.readFileSync(ariYamlPath, "utf8");
+    await writeRulesToCariYaml(selectedRules);
+    expect(fs.existsSync(cariYamlPath)).toBe(true);
+    const fileContent = fs.readFileSync(cariYamlPath, "utf8");
     const yamlContent = yaml.parse(fileContent);
     expect(yamlContent.rules.include).toEqual(selectedRules.include);
     expect(yamlContent.rules.exclude).toEqual(selectedRules.exclude);
-    expect(yamlContent.otherConfig).toEqual(existingYamlWithExtras.otherConfig);
+    expect(yamlContent.repos).toEqual(existingYaml.repos);
   });
 });
 
-describe("getAriYaml", () => {
-  it("should return the ari yaml object", async () => {
+describe("getCariYaml", () => {
+  it("should return the cari yaml object", async () => {
     mockFs({
-      [ariYamlPath]: yaml.stringify(existingYaml),
+      [cariYamlPath]: yaml.stringify(existingYaml),
     });
-    const ariYaml = await getAriYaml();
-    expect(ariYaml).toEqual(existingYaml);
+    const cariYaml = await getCariYaml();
+    expect(cariYaml).toEqual(existingYaml);
   });
 });

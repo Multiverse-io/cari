@@ -1,14 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  FlatRepoRule,
-  getCentralRules,
-  RepoRules,
-  writeRulesToProject,
-} from "./rules.js";
+import { getCentralRules, writeRulesToProject } from "./rules.js";
 import mockFs from "mock-fs";
 import fs from "fs-extra";
 import path from "path";
 import os from "os";
+import { RepoRules } from "./cari-yaml.js";
 
 const projectDir = "/home/user/my-project";
 
@@ -31,8 +27,8 @@ describe("writeRulesToProject", () => {
   it("should write the rules to the project", async () => {
     mockFs({
       [projectDir]: {},
-      "/home/user/.ari/org/repo/rules/category/rule.mdc": "some rule content",
-      "/home/user/.ari/my-org/typescript-ai-rules/rules/some-rule-category/some-rule.mdc":
+      "/home/user/.cari/org/repo/rules/category/rule.mdc": "some rule content",
+      "/home/user/.cari/my-org/typescript-ai-rules/rules/some-rule-category/some-rule.mdc":
         "some more rule content",
     });
     const rules: RepoRules[] = [
@@ -79,7 +75,7 @@ describe("writeRulesToProject", () => {
 describe("getCentralRules", () => {
   it("should return the central rules", async () => {
     const mockFolderStructure = {
-      "/home/user/.ari/my-org/elixir-ai-rules": {
+      "/home/user/.cari/my-org/elixir-ai-rules": {
         rules: {
           "ecto-rules": {
             "ecto-rule-1.mdc": "some rule content",
@@ -87,7 +83,7 @@ describe("getCentralRules", () => {
           },
         },
       },
-      "/home/user/.ari/my-org/typescript-ai-rules": {
+      "/home/user/.cari/my-org/typescript-ai-rules": {
         rules: {
           "some-rule-category": {
             "some-rule.mdc": "some rule content",
@@ -95,7 +91,7 @@ describe("getCentralRules", () => {
         },
       },
       // Should be ignored as in hidden .git folder
-      "/home/user/.ari/.git": {
+      "/home/user/.cari/.git": {
         rules: {
           "some-rule-category": {
             "some-rule.mdc": "some rule content",
@@ -109,12 +105,12 @@ describe("getCentralRules", () => {
       {
         orgName: "my-org",
         repoName: "elixir-ai-rules",
-        repoDir: "/home/user/.ari/my-org/elixir-ai-rules",
+        repoDir: "/home/user/.cari/my-org/elixir-ai-rules",
       },
       {
         orgName: "my-org",
         repoName: "typescript-ai-rules",
-        repoDir: "/home/user/.ari/my-org/typescript-ai-rules",
+        repoDir: "/home/user/.cari/my-org/typescript-ai-rules",
       },
     ]);
     expect(centralRules).toEqual([

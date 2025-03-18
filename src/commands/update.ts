@@ -1,10 +1,10 @@
 import { happyMessage } from "~/utils/user-message.js";
 import {
-  AriYaml,
-  getAriYaml,
+  CariYaml,
+  getCariYaml,
   RepoRules,
-  writeRulesToAriYaml,
-} from "~/utils/ari-yaml.js";
+  writeRulesToCariYaml,
+} from "~/utils/cari-yaml.js";
 import {
   updateAndGetCentralRulesFromAriYaml,
   removeMissingCentralRulesFromAriYaml,
@@ -14,7 +14,7 @@ import { askUserIfTheyWantToAddNewCentralRules } from "~/utils/prompting.js";
 
 export const update = async (): Promise<void> => {
   happyMessage("Updating AI rules...");
-  const ariYaml: AriYaml | undefined = await getAriYaml();
+  const ariYaml: CariYaml | undefined = await getCariYaml();
   if (!ariYaml) {
     return;
   }
@@ -29,7 +29,7 @@ export const update = async (): Promise<void> => {
     rules,
     centralRules
   );
-  await writeRulesToAriYaml(updatedSelectedRules);
+  await writeRulesToCariYaml(updatedSelectedRules);
   await writeRulesToProject(updatedSelectedRules.include);
   happyMessage("AI rules updated successfully");
 };

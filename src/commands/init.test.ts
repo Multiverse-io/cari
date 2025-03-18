@@ -13,7 +13,7 @@ import {
 const emptyProjectDir = { [projectDir]: {} };
 
 const populatedAriHomeDir = {
-  "/home/user/.ari/my-org/ai-rules/rules": {
+  "/home/user/.cari/my-org/ai-rules/rules": {
     "some-rule-category": {
       "some-rule.mdc": "some-rule-content",
       "another-rule.mdc": "another-rule-content",
@@ -51,7 +51,7 @@ beforeEach(() => {
 });
 
 describe("init command", () => {
-  it("should create and populate ~/.ari directory if it doesn't exist", async () => {
+  it("should create and populate ~/.cari directory if it doesn't exist", async () => {
     mockEmptyHomeDir();
     inputMock.mockResolvedValueOnce(repoUrl);
     inputMock.mockResolvedValueOnce("");
@@ -70,14 +70,14 @@ describe("init command", () => {
       },
     ]);
     await init();
-    expect(pathExists(`${homeDir}/.ari`)).resolves.toBe(true);
+    expect(pathExists(`${homeDir}/.cari`)).resolves.toBe(true);
     expect(gitMock.clone).toHaveBeenCalledWith(
       repoUrl,
-      `${homeDir}/.ari/my-org/ai-rules`
+      `${homeDir}/.cari/my-org/ai-rules`
     );
   });
 
-  it("should setup rules and an .ari.yaml file in the current directory based on the user's selection", async () => {
+  it("should setup rules and an .cari.yaml file in the current directory based on the user's selection", async () => {
     mockDirs(populatedAriHomeDir, emptyProjectDir);
     inputMock.mockResolvedValueOnce(repoUrl);
     checkboxMock.mockResolvedValue([
@@ -108,7 +108,7 @@ describe("init command", () => {
         {
           orgName: "my-org",
           repoName: "ai-rules",
-          repoDir: `${homeDir}/.ari/my-org/ai-rules`,
+          repoDir: `${homeDir}/.cari/my-org/ai-rules`,
           repoUrl,
         },
       ],
@@ -140,7 +140,7 @@ describe("init command", () => {
       },
     };
     const actualAriYamlContent = yaml.parse(
-      await fs.readFile(`${projectDir}/.ari.yaml`, "utf8")
+      await fs.readFile(`${projectDir}/.cari.yaml`, "utf8")
     );
     expect(actualAriYamlContent).toEqual(expectedAriYamlContent);
   });

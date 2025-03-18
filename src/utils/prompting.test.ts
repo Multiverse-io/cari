@@ -8,7 +8,7 @@ import {
   userChoicesToSelectedRules,
 } from "./prompting.js";
 import { FlatSelectedRules } from "./rules.js";
-import { RepoRules } from "./ari-yaml.js";
+import { RepoRules } from "./cari-yaml.js";
 
 describe("getSelectRuleChoices", () => {
   it("should return a list of choices", () => {

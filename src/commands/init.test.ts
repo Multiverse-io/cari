@@ -104,6 +104,14 @@ describe("init command", () => {
     ).resolves.toBe("some-rule-content");
 
     const expectedAriYamlContent: AriYaml = {
+      repos: [
+        {
+          orgName: "my-org",
+          repoName: "ai-rules",
+          repoDir: `${homeDir}/.ari/my-org/ai-rules`,
+          repoUrl,
+        },
+      ],
       rules: {
         include: [
           {

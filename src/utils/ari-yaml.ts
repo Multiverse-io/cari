@@ -22,7 +22,15 @@ const selectedRulesSchema = z.object({
   exclude: z.array(repoRuleSchema),
 });
 
+const repoSchema = z.object({
+  orgName: z.string(),
+  repoName: z.string(),
+  repoDir: z.string(),
+  repoUrl: z.string(),
+});
+
 const ariYamlSchema = z.object({
+  repos: z.array(repoSchema),
   rules: selectedRulesSchema,
 });
 
@@ -30,6 +38,12 @@ export type AriYaml = z.TypeOf<typeof ariYamlSchema>;
 export type SelectedRules = z.TypeOf<typeof selectedRulesSchema>;
 export type RuleFilePath = z.TypeOf<typeof relativeFilePathSchema>;
 export type RepoRules = z.TypeOf<typeof repoRuleSchema>;
+
+export const writeNewAriYamlFile = async (ariYaml: AriYaml) => {
+  const ariYamlPath = getAriYamlPath();
+  fs.ensureFileSync(ariYamlPath);
+  fs.writeFileSync(ariYamlPath, yaml.stringify(ariYaml));
+};
 
 export const writeRulesToAriYaml = async (selectedRules: SelectedRules) => {
   const ariYamlPath = getAriYamlPath();

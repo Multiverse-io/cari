@@ -51,16 +51,6 @@ export const cloneRepo = async (
 ): Promise<void> => {
   try {
     const git: SimpleGit = simpleGit();
-    const ariDir = getAriHomeDir();
-
-    // Create parent directory if it doesn't exist
-    const parentDir = path.dirname(repoDir);
-    await git.cwd(ariDir);
-
-    // Create the parent directory structure if it doesn't exist
-    await git.raw(["init", parentDir]);
-
-    // Clone the repository
     await git.clone(repoUrl, repoDir);
     console.log(`Successfully cloned repository: ${repoUrl}`);
   } catch (error) {

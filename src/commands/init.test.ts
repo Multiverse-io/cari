@@ -28,10 +28,7 @@ vi.mock("os", () => ({
 }));
 
 const gitMock = {
-  cwd: vi.fn().mockReturnThis(),
-  raw: vi.fn().mockResolvedValue(undefined),
   clone: vi.fn().mockResolvedValue(undefined),
-  pull: vi.fn().mockResolvedValue(undefined),
 };
 
 vi.mock("simple-git", () => ({

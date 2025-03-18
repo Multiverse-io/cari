@@ -3,7 +3,7 @@ import path from "path";
 import os from "os";
 import { glob } from "glob";
 import { Rule } from "../types/index.js";
-import chalk from "chalk";
+import { warningMessage } from "./user-message.js";
 
 /**
  * Get the current working directory of the project
@@ -44,7 +44,7 @@ export const createAriHomeDirIfNotExists = async (): Promise<void> => {
   const ariDir = getAriHomeDir();
   const ariDirExists = await directoryExists(ariDir);
   if (!ariDirExists) {
-    console.log(chalk.yellow(`Creating .ari directory at ${ariDir}`));
+    warningMessage(`Creating .ari directory at ${ariDir}`);
     await ensureDirectoryExists(ariDir);
   }
 };

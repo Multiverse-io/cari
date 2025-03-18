@@ -7,3 +7,9 @@ export const mockDirs = (...dirs: Record<string, any>[]) => {
 
 export const homeDir = "/home/user";
 export const projectDir = `${homeDir}/my-project`;
+
+export const mockEmptyHomeDir = () => {
+  mockFs({
+    [homeDir]: {},
+  });
+};

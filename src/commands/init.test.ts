@@ -2,17 +2,15 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { init } from "./init.js";
 import yaml from "yaml";
 import fs, { pathExists } from "fs-extra";
-import mockFs from "mock-fs";
 import { AriYaml } from "../utils/ari-yaml.js";
-import { homeDir, mockDirs, projectDir } from "../__test__/test-utils.js";
+import {
+  homeDir,
+  mockDirs,
+  mockEmptyHomeDir,
+  projectDir,
+} from "../__test__/test-utils.js";
 
 const emptyProjectDir = { [projectDir]: {} };
-
-const mockEmptyHomeDir = () => {
-  mockFs({
-    "/home/user": {},
-  });
-};
 
 const populatedAriHomeDir = {
   "/home/user/.ari/my-org/ai-rules/rules": {

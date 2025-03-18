@@ -1,13 +1,11 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { init } from "./init.js";
 import yaml from "yaml";
 import fs, { pathExists } from "fs-extra";
 import mockFs from "mock-fs";
 import { AriYaml } from "../utils/ari-yaml.js";
-import { mockDirs } from "@test/test-utils.js";
+import { homeDir, mockDirs, projectDir } from "../__test__/test-utils.js";
 
-const homeDir = "/home/user";
-const projectDir = `${homeDir}/my-project`;
 const emptyProjectDir = { [projectDir]: {} };
 
 const mockEmptyHomeDir = () => {

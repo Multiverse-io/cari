@@ -41,6 +41,14 @@ afterEach(() => {
 describe("update command", () => {
   it("should update existing rules", async () => {
     const ariYamlObj: AriYaml = {
+      repos: [
+        {
+          orgName: "my-org",
+          repoName: "my-rules-repo",
+          repoDir: `${homeDir}/.ari/my-org/my-rules-repo`,
+          repoUrl: "https://github.com/my-org/my-rules-repo",
+        },
+      ],
       rules: {
         include: [
           {
@@ -102,6 +110,14 @@ describe("update command", () => {
   it("should ask the user if they want to add new central rules", async () => {
     // Initial state: only existing-rule.mdc is in the project
     const ariYamlObj: AriYaml = {
+      repos: [
+        {
+          orgName: "my-org",
+          repoName: "my-rules-repo",
+          repoDir: `${homeDir}/.ari/my-org/my-rules-repo`,
+          repoUrl: "https://github.com/my-org/my-rules-repo",
+        },
+      ],
       rules: {
         include: [
           {
@@ -195,6 +211,14 @@ describe("update command", () => {
 
   it("should warn the user if there are rules in their .ari.yaml that are not in the central repo", async () => {
     const ariYamlObj: AriYaml = {
+      repos: [
+        {
+          orgName: "my-org",
+          repoName: "my-rules-repo",
+          repoDir: `${homeDir}/.ari/my-org/my-rules-repo`,
+          repoUrl: "https://github.com/my-org/my-rules-repo",
+        },
+      ],
       rules: {
         include: [
           {

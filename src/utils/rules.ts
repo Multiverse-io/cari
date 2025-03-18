@@ -11,7 +11,7 @@ import {
 } from "./git.js";
 import { happyMessage } from "./user-message.js";
 import { warningMessage } from "./user-message.js";
-import { RepoRules, RuleFilePath, SelectedRules } from "./ari-yaml.js";
+import { AriYaml, RepoRules, RuleFilePath, SelectedRules } from "./ari-yaml.js";
 import _ from "lodash";
 
 export interface FlatSelectedRules {
@@ -60,19 +60,13 @@ export const getCentralRules = async (
 };
 
 export const updateAndGetCentralRulesFromAriYaml = async (
-  ariYaml: SelectedRules
+  ariYaml: AriYaml
 ): Promise<RepoRules[]> => {
-  const allRules = ariYaml.include.concat(ariYaml.exclude);
-  const repoDetails = allRules.flatMap((rule) => ({
-    orgName: rule.org,
-    repoName: rule.repo,
-    repoDir: getCentralRepoDir(getAriHomeDir(), rule.org, rule.repo),
-  }));
-  const distinctRepoDetails = _.uniqWith(repoDetails, _.isEqual);
-  for (const repoDetail of distinctRepoDetails) {
+  const repoDetails = ariYaml.repos;
+  for (const repoDetail of repoDetails) {
     await pullLatestChanges(repoDetail.repoDir);
   }
-  return getCentralRules(distinctRepoDetails);
+  return getCentralRules(repoDetails);
 };
 
 export const getCentralRepoDir = (

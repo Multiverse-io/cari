@@ -38,6 +38,14 @@ const selectedRules: SelectedRules = {
 };
 
 const existingYaml = {
+  repos: [
+    {
+      orgName: "OldOrg",
+      repoName: "old-repo",
+      repoDir: "/home/user/old-repo",
+      repoUrl: "https://github.com/OldOrg/old-repo",
+    },
+  ],
   rules: {
     include: [
       {

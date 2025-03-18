@@ -1,6 +1,6 @@
-# AI Rules Installer
+# Cursor AI Rules Installer
 
-A command-line interface tool for installing and managing AI rules in your projects.
+A command-line interface tool for installing and managing Cursor AI rules in your projects.
 
 ## Features
 

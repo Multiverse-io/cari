@@ -31,7 +31,6 @@
     "installer"
   ],
   "author": "Tim Gent",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Multiverse-io/cari.git"

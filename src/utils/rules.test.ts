@@ -1,0 +1,147 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  FlatRepoRule,
+  getCentralRules,
+  RepoRules,
+  writeRulesToProject,
+} from "./rules.js";
+import mockFs from "mock-fs";
+import fs from "fs-extra";
+import path from "path";
+import os from "os";
+
+const projectDir = "/home/user/my-project";
+
+beforeEach(() => {
+  vi.spyOn(process, "cwd").mockReturnValue(projectDir);
+  vi.spyOn(os, "homedir").mockReturnValue("/home/user");
+});
+
+describe("writeRulesToProject", () => {
+  it("should create the .cursor/rules directory if it doesn't exist", async () => {
+    mockFs({
+      "/home/user/my-project/": {},
+    });
+    await writeRulesToProject([]);
+    expect(
+      fs.existsSync(path.join("/home/user/my-project/", ".cursor/rules"))
+    ).toBe(true);
+  });
+
+  it("should write the rules to the project", async () => {
+    mockFs({
+      [projectDir]: {},
+      "/home/user/.ari/org/repo/rules/category/rule.mdc": "some rule content",
+      "/home/user/.ari/my-org/typescript-ai-rules/rules/some-rule-category/some-rule.mdc":
+        "some more rule content",
+    });
+    const rules: RepoRules[] = [
+      {
+        org: "org",
+        repo: "repo",
+        relativeFilePaths: [
+          {
+            fileName: "rule.mdc",
+            categoryFolderName: "category",
+          },
+        ],
+      },
+      {
+        org: "my-org",
+        repo: "typescript-ai-rules",
+        relativeFilePaths: [
+          {
+            fileName: "some-rule.mdc",
+            categoryFolderName: "some-rule-category",
+          },
+        ],
+      },
+    ];
+    await writeRulesToProject(rules);
+    expect(
+      fs.readFileSync(
+        path.join(projectDir, ".cursor/rules/org/repo/category/rule.mdc"),
+        "utf8"
+      )
+    ).toBe("some rule content");
+    expect(
+      fs.readFileSync(
+        path.join(
+          projectDir,
+          ".cursor/rules/my-org/typescript-ai-rules/some-rule-category/some-rule.mdc"
+        ),
+        "utf8"
+      )
+    ).toBe("some more rule content");
+  });
+});
+
+describe("getCentralRules", () => {
+  it("should return the central rules", async () => {
+    const mockFolderStructure = {
+      "/home/user/.ari/my-org/elixir-ai-rules": {
+        rules: {
+          "ecto-rules": {
+            "ecto-rule-1.mdc": "some rule content",
+            "ecto-rule-2.mdc": "some other rule content",
+          },
+        },
+      },
+      "/home/user/.ari/my-org/typescript-ai-rules": {
+        rules: {
+          "some-rule-category": {
+            "some-rule.mdc": "some rule content",
+          },
+        },
+      },
+      // Should be ignored as in hidden .git folder
+      "/home/user/.ari/.git": {
+        rules: {
+          "some-rule-category": {
+            "some-rule.mdc": "some rule content",
+          },
+        },
+      },
+    };
+
+    mockFs(mockFolderStructure);
+    const centralRules = await getCentralRules([
+      {
+        orgName: "my-org",
+        repoName: "elixir-ai-rules",
+        repoDir: "/home/user/.ari/my-org/elixir-ai-rules",
+      },
+      {
+        orgName: "my-org",
+        repoName: "typescript-ai-rules",
+        repoDir: "/home/user/.ari/my-org/typescript-ai-rules",
+      },
+    ]);
+    expect(centralRules).toEqual([
+      {
+        org: "my-org",
+        repo: "elixir-ai-rules",
+        relativeFilePaths: [
+          {
+            fileName: "ecto-rule-2.mdc",
+            categoryFolderName: "ecto-rules",
+          },
+          {
+            fileName: "ecto-rule-1.mdc",
+            categoryFolderName: "ecto-rules",
+          },
+        ],
+      },
+      {
+        org: "my-org",
+        repo: "typescript-ai-rules",
+        relativeFilePaths: [
+          {
+            fileName: "some-rule.mdc",
+            categoryFolderName: "some-rule-category",
+          },
+        ],
+      },
+    ]);
+  });
+});

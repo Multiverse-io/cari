@@ -121,14 +121,10 @@ ai-rules-installer/
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Author
 
-Your Name
+Tim Gent
 
 ## Support
 
-For support, please open an issue in the [GitHub repository](https://github.com/yourusername/ai-rules-installer/issues).
+For support, please open an issue in the [GitHub repository](https://github.com/Multiverse-io/cari).

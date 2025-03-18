@@ -33,12 +33,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/ai-rules-installer.git"
+    "url": "git+https://github.com/Multiverse-io/cari.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/ai-rules-installer/issues"
+    "url": "https://github.com/Multiverse-io/cari/issues"
   },
-  "homepage": "https://github.com/yourusername/ai-rules-installer#readme",
+  "homepage": "https://github.com/Multiverse-io/cari#readme",
   "packageManager": "yarn@4.1.1",
   "dependencies": {
     "@inquirer/prompts": "^7.4.0",

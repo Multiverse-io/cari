@@ -228,20 +228,6 @@ describe("update command", () => {
         "Content of a rule that no longer exists in central repo",
     });
 
-    checkboxMock.mockResolvedValue([
-      {
-        type: "file",
-        org: "my-org",
-        repo: "my-rules-repo",
-        ruleRelativeFilePaths: [
-          {
-            fileName: "existing-rule.mdc",
-            categoryFolderName: "category",
-          },
-        ],
-      },
-    ]);
-
     await update();
 
     // Verify warning message about missing rule and its removal from .ari.yaml

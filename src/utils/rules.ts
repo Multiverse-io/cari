@@ -30,7 +30,7 @@ export interface FlatRepoRule {
   relativeFilePath: RuleFilePath;
 }
 
-export const flattenRepoRules = (repoRules: RepoRules): FlatRepoRule[] => {
+export const flattenRepoRule = (repoRules: RepoRules): FlatRepoRule[] => {
   return repoRules.relativeFilePaths.map((relativeFilePath) => ({
     org: repoRules.org,
     repo: repoRules.repo,

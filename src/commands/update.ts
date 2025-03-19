@@ -10,7 +10,7 @@ import {
   removeMissingCentralRulesFromAriYaml,
   writeRulesToProject,
 } from "~/utils/rules.js";
-import { askUserIfTheyWantToAddNewCentralRules } from "~/utils/prompting.js";
+import { askUserIfTheyWantToAddNewCentralRules } from "~/prompting/update-prompts.js";
 
 export const update = async (): Promise<void> => {
   happyMessage("Updating AI rules...");

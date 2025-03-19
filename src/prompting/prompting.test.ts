@@ -1,14 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { FlatRepoRule } from "./rules.js";
+import { FlatRepoRule } from "../utils/rules.js";
+import { getSelectRuleChoices } from "./init-prompts.js";
+import { FlatSelectedRules } from "../utils/rules.js";
 import {
+  repoChoice,
   directoryChoice,
   fileChoice,
-  getSelectRuleChoices,
-  repoChoice,
   userChoicesToSelectedRules,
-} from "./prompting.js";
-import { FlatSelectedRules } from "./rules.js";
-import { RepoRules } from "./cari-yaml.js";
+} from "./common.js";
 
 describe("getSelectRuleChoices", () => {
   it("should return a list of choices", () => {

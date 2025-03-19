@@ -3,7 +3,7 @@ import { extractRepoDetails } from "../utils/git.js";
 import {
   askUserToSelectRepos,
   askUserToSelectRules,
-} from "../utils/prompting.js";
+} from "../prompting/init-prompts.js";
 import {
   cloneRulesRepoIfNotExists,
   getCentralRules,

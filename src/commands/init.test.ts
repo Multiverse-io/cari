@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { init } from "./init.js";
 import yaml from "yaml";
 import fs, { pathExists } from "fs-extra";
-import { AriYaml } from "../utils/ari-yaml.js";
 import {
   homeDir,
   mockDirs,

@@ -27,7 +27,7 @@ const extractOrgAndRepoFromRepoUrl = (
 } => {
   const repoName = repoUrl.split("/").pop()?.replace(".git", "")!;
 
-  const orgMatch = repoUrl.match(/[:/]([^/]+)\/[^/]+\.git$/);
+  const orgMatch = repoUrl.match(/[:/]([^/]+)\/[^/]+(?:\.git)?$/);
   const orgName = orgMatch ? orgMatch[1] : "default-org";
 
   return {

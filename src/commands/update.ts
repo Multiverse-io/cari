@@ -9,7 +9,7 @@ import {
   updateAndGetCentralRulesFromAriYaml,
   removeMissingCentralRulesFromAriYaml,
   writeRulesToProject,
-} from "~/utils/rules.js";
+} from "~/rules/rules.js";
 import { askUserIfTheyWantToAddNewCentralRules } from "~/prompting/update-prompts.js";
 
 export const update = async (): Promise<void> => {

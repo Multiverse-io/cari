@@ -8,7 +8,7 @@ import {
   cloneRulesRepoIfNotExists,
   getCentralRules,
   writeRulesToProject,
-} from "../utils/rules.js";
+} from "../rules/rules.js";
 import { writeNewCariYamlFile } from "../utils/cari-yaml.js";
 import { errorMessage, happyMessage } from "../utils/user-message.js";
 

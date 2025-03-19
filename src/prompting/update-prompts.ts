@@ -1,15 +1,15 @@
 import { RepoRules, SelectedRules } from "~/utils/cari-yaml.js";
 import _ from "lodash";
+import { userChoicesToSelectedRules } from "./common.js";
+import { checkbox } from "@inquirer/prompts";
+import { PromptChoice } from "./types.js";
+import { FileChoice } from "./types.js";
 import {
   flattenSelectedRules,
   normaliseSelectedRules,
-  userChoicesToSelectedRules,
-} from "./common.js";
-import { flattenRepoRules } from "./common.js";
-import { checkbox } from "@inquirer/prompts";
-import { PromptChoice } from "./types.js";
-import { FlatRepoRule } from "~/utils/rules.js";
-import { FileChoice } from "./types.js";
+} from "~/rules/rule-flattening.js";
+import { flattenRepoRules } from "~/rules/rule-flattening.js";
+import { FlatRepoRule } from "~/rules/types.js";
 
 // Asks the user if they want to add new central rules that are
 // not currently in the project. Returns a list with the updated

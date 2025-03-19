@@ -56,10 +56,7 @@ export const writeRulesToCariYaml = async (rules: SelectedRules) => {
     const updatedYaml = { ...parsedYaml, rules };
     fs.writeFileSync(cariYamlPath, yaml.stringify(updatedYaml));
   } catch (error) {
-    console.warn(
-      "Failed to parse existing .cari.yaml file, creating new one",
-      error
-    );
+    errorMessage("Failed to parse existing .cari.yaml file, creating new one");
     const cariYamlContent = {
       rules,
       repos: {},

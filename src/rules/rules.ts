@@ -1,42 +1,25 @@
 import path from "path";
-import { directoryExists, getAriHomeDir, getProjectDir } from "./file.js";
+import {
+  directoryExists,
+  getAriHomeDir,
+  getProjectDir,
+} from "../utils/file.js";
 import fs from "fs-extra";
 import { glob } from "glob";
-import chalk from "chalk";
 import {
   cloneRepo,
   pullLatestChanges,
-  RepoDetails,
   SimpleRepoDetails,
-} from "./git.js";
-import { happyMessage } from "./user-message.js";
-import { warningMessage } from "./user-message.js";
+} from "../utils/git.js";
+import { happyMessage } from "../utils/user-message.js";
+import { warningMessage } from "../utils/user-message.js";
 import {
   CariYaml,
   RepoRules,
   RuleFilePath,
   SelectedRules,
-} from "./cari-yaml.js";
+} from "../utils/cari-yaml.js";
 import _ from "lodash";
-
-export interface FlatSelectedRules {
-  include: FlatRepoRule[];
-  exclude: FlatRepoRule[];
-}
-
-export interface FlatRepoRule {
-  org: string;
-  repo: string;
-  relativeFilePath: RuleFilePath;
-}
-
-export const flattenRepoRule = (repoRules: RepoRules): FlatRepoRule[] => {
-  return repoRules.relativeFilePaths.map((relativeFilePath) => ({
-    org: repoRules.org,
-    repo: repoRules.repo,
-    relativeFilePath,
-  }));
-};
 
 // TODO: Make this log out warnings if:
 // 1. There are no rules in a repo

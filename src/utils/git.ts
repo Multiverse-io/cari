@@ -1,7 +1,7 @@
 import { simpleGit, SimpleGit } from "simple-git";
 import { getAriHomeDir } from "./file.js";
 import path from "path";
-import { getCentralRepoDir } from "./rules.js";
+import { getCentralRepoDir } from "../rules/rules.js";
 
 export interface RepoDetails {
   repoUrl: string;

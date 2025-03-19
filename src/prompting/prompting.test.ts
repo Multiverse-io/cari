@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { FlatRepoRule } from "../utils/rules.js";
 import { getSelectRuleChoices } from "./init-prompts.js";
-import { FlatSelectedRules } from "../utils/rules.js";
 import {
   repoChoice,
   directoryChoice,

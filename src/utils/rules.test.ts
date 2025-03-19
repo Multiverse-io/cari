@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getCentralRules, writeRulesToProject } from "./rules.js";
+import { getCentralRules, writeRulesToProject } from "../rules/rules.js";
 import mockFs from "mock-fs";
 import fs from "fs-extra";
 import path from "path";

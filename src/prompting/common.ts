@@ -1,8 +1,6 @@
 import { RuleFilePath, SelectedRules } from "~/utils/cari-yaml.js";
-import { RepoRules } from "~/utils/cari-yaml.js";
-import { FlatRepoRule, flattenRepoRule } from "~/utils/rules.js";
+import { FlatRepoRule, FlatSelectedRules } from "~/rules/types.js";
 import _ from "lodash";
-import { FlatSelectedRules } from "~/utils/rules.js";
 import {
   DirectoryChoice,
   FileChoice,
@@ -10,47 +8,6 @@ import {
   UserChoice,
 } from "./types.js";
 import { PromptChoice } from "./types.js";
-
-export const normaliseSelectedRules = (
-  selectedRules: FlatSelectedRules
-): SelectedRules => {
-  return {
-    include: normaliseFlatRepoRules(selectedRules.include),
-    exclude: normaliseFlatRepoRules(selectedRules.exclude),
-  };
-};
-
-export const normaliseFlatRepoRules = (
-  flatRepoRules: FlatRepoRule[]
-): RepoRules[] => {
-  const byOrgAndRepo = _.groupBy(
-    flatRepoRules,
-    (rule) => `${rule.org}/${rule.repo}`
-  );
-
-  return Object.entries(byOrgAndRepo).map(([_, rules]) => {
-    const [firstRule, ...remainingRules] = rules;
-    const relativeFilePaths = rules.map((rule) => rule.relativeFilePath);
-    return {
-      org: firstRule.org,
-      repo: firstRule.repo,
-      relativeFilePaths,
-    };
-  });
-};
-
-export const flattenRepoRules = (centralRules: RepoRules[]): FlatRepoRule[] => {
-  return centralRules.flatMap((rule) => flattenRepoRule(rule));
-};
-
-export const flattenSelectedRules = (
-  selectedRules: SelectedRules
-): FlatSelectedRules => {
-  return {
-    include: selectedRules.include.flatMap((rule) => flattenRepoRule(rule)),
-    exclude: selectedRules.exclude.flatMap((rule) => flattenRepoRule(rule)),
-  };
-};
 
 export const repoChoice = (
   org: string,

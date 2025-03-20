@@ -1,42 +1,10 @@
 import path from "path";
 import fs from "fs-extra";
 import yaml from "yaml";
-import { z } from "zod";
-import { errorMessage } from "./user-message.js";
-
-const relativeFilePathSchema = z.object({
-  fileName: z.string(),
-  categoryFolderName: z.string(),
-});
-
-const repoRuleSchema = z.object({
-  org: z.string(),
-  repo: z.string(),
-  relativeFilePaths: z.array(relativeFilePathSchema),
-});
-
-const selectedRulesSchema = z.object({
-  include: z.array(repoRuleSchema),
-  exclude: z.array(repoRuleSchema),
-});
-
-const repoSchema = z.object({
-  orgName: z.string(),
-  repoName: z.string(),
-  repoDir: z.string(),
-  repoUrl: z.string(),
-});
-
-const cariYamlSchema = z.object({
-  repos: z.array(repoSchema),
-  rules: selectedRulesSchema,
-});
-
-export type CariYaml = z.TypeOf<typeof cariYamlSchema>;
-export type SelectedRules = z.TypeOf<typeof selectedRulesSchema>;
-export type RuleFilePath = z.TypeOf<typeof relativeFilePathSchema>;
-export type RepoRules = z.TypeOf<typeof repoRuleSchema>;
-
+import { errorMessage } from "../utils/user-message.js";
+import { CariYaml } from "./types.js";
+import { SelectedRules } from "./types.js";
+import { cariYamlSchema } from "./types.js";
 export const writeNewCariYamlFile = async (cariYaml: CariYaml) => {
   const cariYamlPath = getCariYamlPath();
   fs.ensureFileSync(cariYamlPath);
@@ -46,9 +14,6 @@ export const writeNewCariYamlFile = async (cariYaml: CariYaml) => {
 export const writeRulesToCariYaml = async (rules: SelectedRules) => {
   const cariYamlPath = getCariYamlPath();
   fs.ensureFileSync(cariYamlPath);
-
-  const fileExists = fs.existsSync(cariYamlPath);
-  const fileStats = fileExists ? fs.statSync(cariYamlPath) : null;
 
   try {
     const existingYaml = fs.readFileSync(cariYamlPath, "utf8");

@@ -1,6 +1,10 @@
-import { RepoRules, SelectedRules } from "~/utils/cari-yaml.js";
 import _ from "lodash";
-import { FlatRepoRule, FlatSelectedRules } from "./types.js";
+import {
+  FlatRepoRule,
+  FlatSelectedRules,
+  RepoRules,
+  SelectedRules,
+} from "./types.js";
 
 export const flattenRepoRule = (repoRules: RepoRules): FlatRepoRule[] => {
   return repoRules.relativeFilePaths.map((relativeFilePath) => ({

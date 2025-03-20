@@ -4,7 +4,7 @@ import mockFs from "mock-fs";
 import fs from "fs-extra";
 import path from "path";
 import os from "os";
-import { RepoRules } from "./cari-yaml.js";
+import { RepoRules } from "../rules/cari-yaml.js";
 
 const projectDir = "/home/user/my-project";
 

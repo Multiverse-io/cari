@@ -1,5 +1,8 @@
-import { RuleFilePath, SelectedRules } from "~/utils/cari-yaml.js";
-import { FlatRepoRule, FlatSelectedRules } from "~/rules/types.js";
+import {
+  FlatRepoRule,
+  FlatSelectedRules,
+  RuleFilePath,
+} from "~/rules/types.js";
 import _ from "lodash";
 import {
   DirectoryChoice,

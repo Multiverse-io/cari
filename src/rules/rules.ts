@@ -13,13 +13,8 @@ import {
 } from "../utils/git.js";
 import { happyMessage } from "../utils/user-message.js";
 import { warningMessage } from "../utils/user-message.js";
-import {
-  CariYaml,
-  RepoRules,
-  RuleFilePath,
-  SelectedRules,
-} from "../utils/cari-yaml.js";
 import _ from "lodash";
+import { RepoRules, RuleFilePath, SelectedRules, CariYaml } from "./types.js";
 
 // TODO: Make this log out warnings if:
 // 1. There are no rules in a repo

@@ -1,5 +1,4 @@
-import { RuleFilePath } from "~/utils/cari-yaml.js";
-
+import { RuleFilePath } from "~/rules/types.js";
 export type PromptChoice<T extends UserChoice> = {
   name: string;
   value: T;

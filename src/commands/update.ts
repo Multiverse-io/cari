@@ -1,16 +1,13 @@
 import { happyMessage } from "~/utils/user-message.js";
-import {
-  CariYaml,
-  getCariYaml,
-  RepoRules,
-  writeRulesToCariYaml,
-} from "~/utils/cari-yaml.js";
+import { getCariYaml, writeRulesToCariYaml } from "~/rules/cari-yaml.js";
 import {
   updateAndGetCentralRulesFromAriYaml,
   removeMissingCentralRulesFromCariYaml,
   writeRulesToProject,
 } from "~/rules/rules.js";
 import { askUserIfTheyWantToAddNewCentralRules } from "~/prompting/update-prompts.js";
+import { RepoRules } from "~/rules/types.js";
+import { CariYaml } from "~/rules/types.js";
 
 export const update = async (): Promise<void> => {
   happyMessage("Updating AI rules...");

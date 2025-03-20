@@ -1,4 +1,3 @@
-import { RepoRules, RuleFilePath, SelectedRules } from "~/utils/cari-yaml.js";
 import { checkbox, input } from "@inquirer/prompts";
 import _ from "lodash";
 import { Directory, PromptChoice, UserChoice } from "./types.js";
@@ -12,6 +11,7 @@ import {
   flattenRepoRules,
   normaliseSelectedRules,
 } from "~/rules/rule-flattening.js";
+import { RepoRules, RuleFilePath, SelectedRules } from "~/rules/types.js";
 
 export const askUserToSelectRepos = async (): Promise<string[]> => {
   const repos: string[] = [];

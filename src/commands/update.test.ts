@@ -3,7 +3,7 @@ import mockFs from "mock-fs";
 import fs from "fs-extra";
 import yaml from "yaml";
 import { homeDir, projectDir } from "../__test__/test-utils.js";
-import { CariYaml } from "../utils/cari-yaml.js";
+import { CariYaml } from "../rules/cari-yaml.js";
 import { update } from "./update.js";
 import os from "os";
 import { errorMessage, warningMessage } from "../utils/user-message.js";

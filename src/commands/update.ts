@@ -7,22 +7,22 @@ import {
 } from "~/utils/cari-yaml.js";
 import {
   updateAndGetCentralRulesFromAriYaml,
-  removeMissingCentralRulesFromAriYaml,
+  removeMissingCentralRulesFromCariYaml,
   writeRulesToProject,
 } from "~/rules/rules.js";
 import { askUserIfTheyWantToAddNewCentralRules } from "~/prompting/update-prompts.js";
 
 export const update = async (): Promise<void> => {
   happyMessage("Updating AI rules...");
-  const ariYaml: CariYaml | undefined = await getCariYaml();
-  if (!ariYaml) {
+  const cariYaml: CariYaml | undefined = await getCariYaml();
+  if (!cariYaml) {
     return;
   }
   const centralRules: RepoRules[] = await updateAndGetCentralRulesFromAriYaml(
-    ariYaml
+    cariYaml
   );
-  const rules = removeMissingCentralRulesFromAriYaml(
-    ariYaml.rules,
+  const rules = removeMissingCentralRulesFromCariYaml(
+    cariYaml.rules,
     centralRules
   );
   const updatedSelectedRules = await askUserIfTheyWantToAddNewCentralRules(

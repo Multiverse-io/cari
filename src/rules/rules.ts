@@ -119,7 +119,7 @@ export const cloneRulesRepoIfNotExists = async (
   }
 };
 
-export const removeMissingCentralRulesFromAriYaml = (
+export const removeMissingCentralRulesFromCariYaml = (
   selectedRules: SelectedRules,
   centralRules: RepoRules[]
 ): SelectedRules => ({

@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { init } from "./init.js";
+import { CariYaml } from "../rules/types.js";
 import yaml from "yaml";
 import fs, { pathExists } from "fs-extra";
 import {
@@ -102,7 +103,7 @@ describe("init command", () => {
       )
     ).resolves.toBe("some-rule-content");
 
-    const expectedAriYamlContent: AriYaml = {
+    const expectedAriYamlContent: CariYaml = {
       repos: [
         {
           orgName: "my-org",

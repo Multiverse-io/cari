@@ -29,10 +29,3 @@ export interface FileChoice {
   repo: string;
   ruleRelativeFilePaths: RuleFilePath[];
 }
-
-export interface Directory {
-  org: string;
-  repo: string;
-  directory: string;
-  ruleRelativeFilePaths: RuleFilePath[];
-}

@@ -16,9 +16,6 @@ import { warningMessage } from "../utils/user-message.js";
 import _ from "lodash";
 import { RepoRules, RuleFilePath, SelectedRules, CariYaml } from "./types.js";
 
-// TODO: Make this log out warnings if:
-// 1. There are no rules in a repo
-// 2. There are rules files beyond one level of nesting that will be missed
 export const getCentralRules = async (
   repoDetails: SimpleRepoDetails[]
 ): Promise<RepoRules[]> => {
@@ -26,6 +23,11 @@ export const getCentralRules = async (
     const { orgName, repoName, repoDir } = repoDetail;
     const rulesPattern = path.join(repoDir, "rules", "**", "*.mdc");
     const relativeFilePaths = glob.sync(rulesPattern);
+
+    if (relativeFilePaths.length === 0) {
+      warningMessage(`No rules found in repo: ${orgName}/${repoName}`);
+    }
+
     const fileNames = relativeFilePaths.map((filePath) => {
       const fileName = path.basename(filePath);
       const categoryFolderName = path.basename(path.dirname(filePath));

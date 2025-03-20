@@ -1,16 +1,28 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getCentralRules, writeRulesToProject } from "../rules/rules.js";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { getCentralRules, writeRulesToProject } from "./rules.js";
 import mockFs from "mock-fs";
 import fs from "fs-extra";
 import path from "path";
 import os from "os";
-import { RepoRules } from "../rules/cari-yaml.js";
+import { RepoRules } from "./types.js";
 
 const projectDir = "/home/user/my-project";
+
+const mockWarningMessage = vi.hoisted(() => {
+  return vi.fn();
+});
+
+vi.mock("../utils/user-message.js", () => ({
+  warningMessage: mockWarningMessage,
+}));
 
 beforeEach(() => {
   vi.spyOn(process, "cwd").mockReturnValue(projectDir);
   vi.spyOn(os, "homedir").mockReturnValue("/home/user");
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
 });
 
 describe("writeRulesToProject", () => {
@@ -139,5 +151,26 @@ describe("getCentralRules", () => {
         ],
       },
     ]);
+  });
+
+  it("should log a warning when a repo has no rules", async () => {
+    const mockFolderStructure = {
+      "/home/user/.cari/my-org/empty-repo": {
+        // Empty repo with no rules
+      },
+    };
+
+    mockFs(mockFolderStructure);
+    await getCentralRules([
+      {
+        orgName: "my-org",
+        repoName: "empty-repo",
+        repoDir: "/home/user/.cari/my-org/empty-repo",
+      },
+    ]);
+
+    expect(mockWarningMessage.mock.calls[0]).toContain(
+      "No rules found in repo: my-org/empty-repo"
+    );
   });
 });

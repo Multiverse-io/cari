@@ -5,6 +5,7 @@ import fs from "fs-extra";
 import path from "path";
 import os from "os";
 import { RepoRules } from "./types.js";
+import { removeMissingCentralRulesFromCariYaml } from "./rules.js";
 
 const projectDir = "/home/user/my-project";
 
@@ -172,5 +173,216 @@ describe("getCentralRules", () => {
     expect(mockWarningMessage.mock.calls[0]).toContain(
       "No rules found in repo: my-org/empty-repo"
     );
+  });
+});
+
+describe("removeMissingCentralRulesFromCariYaml", () => {
+  it("should keep rules that exist in central rules", () => {
+    const selectedRules = {
+      include: [
+        {
+          org: "my-org",
+          repo: "typescript-ai-rules",
+          relativeFilePaths: [
+            {
+              fileName: "some-rule.mdc",
+              categoryFolderName: "some-rule-category",
+            },
+          ],
+        },
+      ],
+      exclude: [],
+    };
+
+    const centralRules = [
+      {
+        org: "my-org",
+        repo: "typescript-ai-rules",
+        relativeFilePaths: [
+          {
+            fileName: "some-rule.mdc",
+            categoryFolderName: "some-rule-category",
+          },
+        ],
+      },
+    ];
+
+    const result = removeMissingCentralRulesFromCariYaml(
+      selectedRules,
+      centralRules
+    );
+
+    expect(result).toEqual(selectedRules);
+  });
+
+  it("should remove rules that don't exist in central rules", () => {
+    const selectedRules = {
+      include: [
+        {
+          org: "my-org",
+          repo: "typescript-ai-rules",
+          relativeFilePaths: [
+            {
+              fileName: "some-rule.mdc",
+              categoryFolderName: "some-rule-category",
+            },
+            {
+              fileName: "non-existent-rule.mdc",
+              categoryFolderName: "some-rule-category",
+            },
+          ],
+        },
+      ],
+      exclude: [],
+    };
+
+    const centralRules = [
+      {
+        org: "my-org",
+        repo: "typescript-ai-rules",
+        relativeFilePaths: [
+          {
+            fileName: "some-rule.mdc",
+            categoryFolderName: "some-rule-category",
+          },
+        ],
+      },
+    ];
+
+    const result = removeMissingCentralRulesFromCariYaml(
+      selectedRules,
+      centralRules
+    );
+
+    expect(result.include[0].relativeFilePaths).toHaveLength(1);
+    expect(result.include[0].relativeFilePaths[0].fileName).toBe(
+      "some-rule.mdc"
+    );
+  });
+
+  it("should handle empty selected rules", () => {
+    const selectedRules = {
+      include: [],
+      exclude: [],
+    };
+
+    const centralRules = [
+      {
+        org: "my-org",
+        repo: "typescript-ai-rules",
+        relativeFilePaths: [
+          {
+            fileName: "some-rule.mdc",
+            categoryFolderName: "some-rule-category",
+          },
+        ],
+      },
+    ];
+
+    const result = removeMissingCentralRulesFromCariYaml(
+      selectedRules,
+      centralRules
+    );
+
+    expect(result).toEqual(selectedRules);
+  });
+
+  it("should handle rules from different repos", () => {
+    const selectedRules = {
+      include: [
+        {
+          org: "my-org",
+          repo: "typescript-ai-rules",
+          relativeFilePaths: [
+            {
+              fileName: "some-rule.mdc",
+              categoryFolderName: "some-rule-category",
+            },
+          ],
+        },
+        {
+          org: "other-org",
+          repo: "other-rules",
+          relativeFilePaths: [
+            {
+              fileName: "other-rule.mdc",
+              categoryFolderName: "other-category",
+            },
+          ],
+        },
+      ],
+      exclude: [],
+    };
+
+    const centralRules = [
+      {
+        org: "my-org",
+        repo: "typescript-ai-rules",
+        relativeFilePaths: [
+          {
+            fileName: "some-rule.mdc",
+            categoryFolderName: "some-rule-category",
+          },
+        ],
+      },
+    ];
+
+    const result = removeMissingCentralRulesFromCariYaml(
+      selectedRules,
+      centralRules
+    );
+
+    expect(result.include).toHaveLength(1);
+    expect(result.include[0].org).toBe("my-org");
+  });
+
+  it("should handle both include and exclude rules", () => {
+    const selectedRules = {
+      include: [
+        {
+          org: "my-org",
+          repo: "typescript-ai-rules",
+          relativeFilePaths: [
+            {
+              fileName: "some-rule.mdc",
+              categoryFolderName: "some-rule-category",
+            },
+          ],
+        },
+      ],
+      exclude: [
+        {
+          org: "my-org",
+          repo: "typescript-ai-rules",
+          relativeFilePaths: [
+            {
+              fileName: "exclude-rule.mdc",
+              categoryFolderName: "exclude-category",
+            },
+          ],
+        },
+      ],
+    };
+
+    const centralRules = [
+      {
+        org: "my-org",
+        repo: "typescript-ai-rules",
+        relativeFilePaths: [
+          {
+            fileName: "some-rule.mdc",
+            categoryFolderName: "some-rule-category",
+          },
+        ],
+      },
+    ];
+
+    const result = removeMissingCentralRulesFromCariYaml(
+      selectedRules,
+      centralRules
+    );
+
+    expect(result.include).toHaveLength(1);
+    expect(result.exclude).toHaveLength(0);
   });
 });

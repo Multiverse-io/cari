@@ -71,7 +71,6 @@ export const writeRulesToProject = async (rules: RepoRules[]) => {
         rule.repo,
         relativeFilePath
       );
-      const ruleContent = await fs.readFile(centralRulePath, "utf8");
       const rulePath = path.join(
         rulesDir,
         rule.org,
@@ -79,8 +78,8 @@ export const writeRulesToProject = async (rules: RepoRules[]) => {
         relativeFilePath.categoryFolderName,
         relativeFilePath.fileName
       );
-      fs.ensureFileSync(rulePath);
-      fs.writeFileSync(rulePath, ruleContent);
+      await fs.ensureDir(path.dirname(rulePath));
+      await fs.copy(centralRulePath, rulePath);
     }
   }
 };

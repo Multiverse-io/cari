@@ -1,7 +1,7 @@
 {
-  "name": "ai-rules-installer",
-  "version": "1.0.0",
-  "description": "A CLI tool for installing AI rules",
+  "name": "cursor-ai-rules-installer",
+  "version": "0.0.0",
+  "description": "A CLI tool for installing AI rules for Cursor",
   "type": "module",
   "main": "dist/index.js",
   "bin": {

@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20.10
+      - name: Setup Yarn
+        run: corepack enable && corepack prepare yarn@4.7.0 --activate
       - run: yarn install --immutable
       - run: yarn test
 
@@ -34,6 +36,8 @@ jobs:
         with:
           node-version: 20.10
           registry-url: https://npm.pkg.github.com/
+      - name: Setup Yarn
+        run: corepack enable && corepack prepare yarn@4.7.0 --activate
       - run: yarn install --immutable
       - run: yarn build
       - name: Create Release Pull Request or Publish

@@ -7,7 +7,7 @@ jobs:
   run-quality-checks:
     runs-on: ubuntu-latest
     env:
-      GITHUB_READ_PACKAGES_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     steps:
       - name: Check out repository code

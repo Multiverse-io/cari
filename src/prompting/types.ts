@@ -1,4 +1,4 @@
-import { RuleFilePath } from "~/rules/types.js";
+import { RuleFilePath } from "../rules/types.js";
 export type PromptChoice<T extends UserChoice> = {
   name: string;
   value: T;

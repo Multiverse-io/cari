@@ -104,7 +104,7 @@ yarn test:coverage
 ### Project Structure
 
 ```
-ai-rules-installer/
+cursor-ai-rules-installer/
 ├── src/
 │   ├── commands/     # CLI commands implementation
 │   └── index.ts      # Main CLI entry point

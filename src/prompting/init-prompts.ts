@@ -10,8 +10,8 @@ import {
 import {
   flattenRepoRules,
   normaliseSelectedRules,
-} from "~/rules/rule-flattening.js";
-import { RepoRules, RuleFilePath, SelectedRules } from "~/rules/types.js";
+} from "../rules/rule-flattening.js";
+import { RepoRules, RuleFilePath, SelectedRules } from "../rules/types.js";
 
 export const askUserToSelectRepos = async (): Promise<string[]> => {
   const repos: string[] = [];

@@ -6,9 +6,9 @@ import { FileChoice } from "./types.js";
 import {
   flattenSelectedRules,
   normaliseSelectedRules,
-} from "~/rules/rule-flattening.js";
-import { flattenRepoRules } from "~/rules/rule-flattening.js";
-import { FlatRepoRule, RepoRules, SelectedRules } from "~/rules/types.js";
+} from "../rules/rule-flattening.js";
+import { flattenRepoRules } from "../rules/rule-flattening.js";
+import { FlatRepoRule, RepoRules, SelectedRules } from "../rules/types.js";
 
 // Asks the user if they want to add new central rules that are
 // not currently in the project. Returns a list with the updated

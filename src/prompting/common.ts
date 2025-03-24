@@ -2,7 +2,7 @@ import {
   FlatRepoRule,
   FlatSelectedRules,
   RuleFilePath,
-} from "~/rules/types.js";
+} from "../rules/types.js";
 import _ from "lodash";
 import {
   DirectoryChoice,

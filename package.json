@@ -1,5 +1,5 @@
 {
-  "name": "cursor-ai-rules-installer",
+  "name": "@multiverse-io/cari",
   "version": "0.0.1",
   "description": "A CLI tool for installing AI rules for Cursor",
   "type": "module",

@@ -1,6 +1,6 @@
 import { checkbox, input } from "@inquirer/prompts";
 import _ from "lodash";
-import { Directory, PromptChoice, UserChoice } from "./types.js";
+import { PromptChoice, UserChoice } from "./types.js";
 import {
   directoryChoice,
   fileChoice,
@@ -90,3 +90,9 @@ const filePathsToDirectories = (
     };
   });
 };
+interface Directory {
+  org: string;
+  repo: string;
+  directory: string;
+  ruleRelativeFilePaths: RuleFilePath[];
+}

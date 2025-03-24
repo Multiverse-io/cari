@@ -12,6 +12,64 @@ A command-line interface tool for installing and managing Cursor AI rules in you
 
 ## Installation
 
+We recommend adding it to your project:
+
+Yarn:
+
+```bash
+yarn add -D @multiverse-io/cari
+```
+
+npm: 
+
+```bash
+npm install --dev @multiverse-io/cari
+```
+
+If you like you can install globally with:
+
+```bash
+npm install -g @multiverse-io/cari
+```
+
+### Initialize AI Rules
+
+Initialize AI rules in your project:
+
+```bash
+yarn run cari init # Or `cari init` if installed globally
+```
+
+This command will:
+1. Clone the AI rules repository in `~/.cari` if it doesn't exist
+2. Find all available rule files
+3. Allow you to select which rules to include
+4. Create a configuration file (.cari.yaml) in your project
+5. Copy the selected rule files to your project
+
+### Update AI Rules
+
+Update the AI rules in your project:
+
+```bash
+yarn run cari update # Or `cari update` if installed globally
+```
+
+This command will:
+1. Pull the latest changes from the AI rules repository
+2. Check your configuration file (.cari.yaml) for included rules
+3. Copy the latest version of those rules to your project
+4. Ask if you want to include any new central rules it finds
+
+## For Contributors
+
+### Requirements
+
+- Node.js >= 14.0.0
+- Yarn >= 4.1.1 (recommended package manager)
+
+### Initial setup
+
 ```bash
 # Clone the repository
 git clone git@github.com:Multiverse-io/cari.git
@@ -21,7 +79,7 @@ cd cari
 yarn install
 ```
 
-## Development
+### Development
 
 ```bash
 # Run in development mode
@@ -36,58 +94,6 @@ yarn build
 yarn start
 ```
 
-## Global Installation
-
-To install the CLI globally on your system:
-
-```bash
-# Build the project first
-yarn build
-
-# Install globally using npm
-npm install -g .
-
-# Now you can run the command from anywhere
-cari
-```
-
-## Usage
-
-### Initialize AI Rules
-
-Initialize AI rules in your project:
-
-```bash
-cari init
-```
-
-This command will:
-1. Clone the AI rules repository if it doesn't exist
-2. Find all available rule files
-3. Allow you to select which rules to include
-4. Create a configuration file (.ari.yaml)
-5. Copy the selected rule files to your project
-
-### Update AI Rules
-
-Update the AI rules in your project:
-
-```bash
-cari update
-```
-
-This command will:
-1. Pull the latest changes from the AI rules repository
-2. Check your configuration file (.ari.yaml) for included rules
-3. Copy the latest version of those rules to your project
-
-## Requirements
-
-- Node.js >= 14.0.0
-- Yarn >= 4.1.1 (recommended package manager)
-
-## Development
-
 ### Testing
 
 ```bash
@@ -100,26 +106,6 @@ yarn test:watch
 # Run tests with coverage
 yarn test:coverage
 ```
-
-### Project Structure
-
-```
-cursor-ai-rules-installer/
-├── src/
-│   ├── commands/     # CLI commands implementation
-│   └── index.ts      # Main CLI entry point
-├── dist/            # Compiled JavaScript files
-├── package.json     # Project configuration
-└── README.md        # This file
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## Author
 

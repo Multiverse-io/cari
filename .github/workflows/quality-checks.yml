@@ -1,0 +1,23 @@
+name: 🕵️ Quality checks
+run-name: Running quality checks on branch ${{ github.ref }}
+
+on: [pull_request]
+
+jobs:
+  run-quality-checks:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_READ_PACKAGES_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: 🧪 Run tests
+        run: yarn test
+
+      - name: 🦅 Check build runs
+        run: yarn build

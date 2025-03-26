@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { init } from "./init.js";
 import { CariYaml } from "../rules/types.js";
 import yaml from "yaml";
+import { getCentralRules } from "../rules/rules.js";
 import fs, { pathExists } from "fs-extra";
 import {
   homeDir,
@@ -28,7 +29,10 @@ vi.mock("os", () => ({
 }));
 
 const gitMock = {
-  clone: vi.fn().mockResolvedValue(undefined),
+  clone: vi.fn().mockImplementation(() => {
+    mockDirs(populatedAriHomeDir, emptyProjectDir);
+    return Promise.resolve(undefined);
+  }),
 };
 
 vi.mock("simple-git", () => ({
@@ -36,11 +40,20 @@ vi.mock("simple-git", () => ({
 }));
 
 const checkboxMock = vi.fn();
-
 const inputMock = vi.fn();
+const warningMessageMock = vi.hoisted(() => vi.fn());
+const errorMessageMock = vi.hoisted(() => vi.fn());
+const happyMessageMock = vi.hoisted(() => vi.fn());
+
 vi.mock("@inquirer/prompts", () => ({
   checkbox: () => checkboxMock(),
   input: () => inputMock(),
+}));
+
+vi.mock("../utils/user-message.js", () => ({
+  warningMessage: warningMessageMock,
+  errorMessage: errorMessageMock,
+  happyMessage: happyMessageMock,
 }));
 
 const repoUrl = "git@github.com:my-org/ai-rules.git";
@@ -143,5 +156,31 @@ describe("init command", () => {
       await fs.readFile(`${projectDir}/.cari.yaml`, "utf8")
     );
     expect(actualAriYamlContent).toEqual(expectedAriYamlContent);
+  });
+
+  it("should log a warning to the user if they didn't select any rules to include", async () => {
+    mockDirs(populatedAriHomeDir, emptyProjectDir);
+    inputMock.mockResolvedValueOnce(repoUrl);
+    // First time the user selects no rules
+    checkboxMock.mockResolvedValueOnce([]);
+    // They are asked to select again and second time the user selects at least one rule
+    checkboxMock.mockResolvedValueOnce([
+      {
+        type: "directory",
+        org: "my-org",
+        repo: "ai-rules",
+        directory: "some-rule-category",
+        ruleRelativeFilePaths: [
+          {
+            categoryFolderName: "some-rule-category",
+            fileName: "some-rule.mdc",
+          },
+        ],
+      },
+    ]);
+    await init();
+    expect(warningMessageMock).toHaveBeenCalledWith(
+      "No rules were selected to include. Please select at least one rule to include with <space> or press Ctrl-c to exit."
+    );
   });
 });

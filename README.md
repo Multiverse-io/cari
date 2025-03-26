@@ -75,6 +75,15 @@ This command will:
 git clone git@github.com:Multiverse-io/cari.git
 cd cari
 
+# Set up GitHub authentication
+# 1. Create a GitHub Personal Access Token (PAT):
+#    - Go to GitHub.com → Settings → Developer Settings → Personal Access Tokens → Tokens (classic)
+#    - Generate a new token with scopes: read:packages, repo
+# 2. Set the token as an environment variable:
+export GITHUB_TOKEN=your_github_token_here
+#    Or create a .env file in the project root with:
+#    GITHUB_TOKEN=your_github_token_here
+
 # Install dependencies
 yarn install
 ```

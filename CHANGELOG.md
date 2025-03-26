@@ -1,5 +1,11 @@
 # cursor-ai-rules-installer
 
+## 0.1.0
+
+### Minor Changes
+
+- ee40101: Warn users if they don't select any rules
+
 ## 0.0.2
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@multiverse-io/cari",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A CLI tool for installing AI rules for Cursor",
   "type": "module",
   "main": "dist/index.js",

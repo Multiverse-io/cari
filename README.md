@@ -20,10 +20,10 @@ Yarn:
 yarn add -D @multiverse-io/cari
 ```
 
-npm: 
+npm:
 
 ```bash
-npm install --dev @multiverse-io/cari
+npm install --save-dev @multiverse-io/cari
 ```
 
 If you like you can install globally with:
@@ -36,11 +36,20 @@ npm install -g @multiverse-io/cari
 
 Initialize AI rules in your project:
 
+Yarn:
+
 ```bash
 yarn run cari init # Or `cari init` if installed globally
 ```
 
+npm:
+
+```bash
+npx cari init # Or `cari init` if installed globally
+```
+
 This command will:
+
 1. Clone the AI rules repository in `~/.cari` if it doesn't exist
 2. Find all available rule files
 3. Allow you to select which rules to include
@@ -51,11 +60,20 @@ This command will:
 
 Update the AI rules in your project:
 
+Yarn:
+
 ```bash
 yarn run cari update # Or `cari update` if installed globally
 ```
 
+npm:
+
+```bash
+npx cari update # Or `cari update` if installed globally
+```
+
 This command will:
+
 1. Pull the latest changes from the AI rules repository
 2. Check your configuration file (.cari.yaml) for included rules
 3. Copy the latest version of those rules to your project

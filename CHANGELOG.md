@@ -1,5 +1,11 @@
 # cursor-ai-rules-installer
 
+## 0.2.0
+
+### Minor Changes
+
+- 03edd27: BREAKING: .cari.yaml stores repo dir relative to home rather than storing absolute paths
+
 ## 0.1.0
 
 ### Minor Changes

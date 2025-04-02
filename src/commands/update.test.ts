@@ -45,7 +45,7 @@ describe("update command", () => {
         {
           orgName: "my-org",
           repoName: "my-rules-repo",
-          repoDir: `${homeDir}/.cari/my-org/my-rules-repo`,
+          repoDir: `.cari/my-org/my-rules-repo`,
           repoUrl: "https://github.com/my-org/my-rules-repo",
         },
       ],
@@ -114,7 +114,7 @@ describe("update command", () => {
         {
           orgName: "my-org",
           repoName: "my-rules-repo",
-          repoDir: `${homeDir}/.cari/my-org/my-rules-repo`,
+          repoDir: `.cari/my-org/my-rules-repo`,
           repoUrl: "https://github.com/my-org/my-rules-repo",
         },
       ],
@@ -215,7 +215,7 @@ describe("update command", () => {
         {
           orgName: "my-org",
           repoName: "my-rules-repo",
-          repoDir: `${homeDir}/.cari/my-org/my-rules-repo`,
+          repoDir: `.cari/my-org/my-rules-repo`,
           repoUrl: "https://github.com/my-org/my-rules-repo",
         },
       ],

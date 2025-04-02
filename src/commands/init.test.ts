@@ -121,7 +121,7 @@ describe("init command", () => {
         {
           orgName: "my-org",
           repoName: "ai-rules",
-          repoDir: `${homeDir}/.cari/my-org/ai-rules`,
+          repoDir: `.cari/my-org/ai-rules`,
           repoUrl,
         },
       ],

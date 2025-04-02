@@ -5,10 +5,18 @@ import { errorMessage } from "../utils/user-message.js";
 import { CariYaml } from "./types.js";
 import { SelectedRules } from "./types.js";
 import { cariYamlSchema } from "./types.js";
+import { getHomeDir } from "~/utils/file.js";
 export const writeNewCariYamlFile = async (cariYaml: CariYaml) => {
+  const cariYamlWithRelativePath = {
+    ...cariYaml,
+    repos: cariYaml.repos.map((repo) => ({
+      ...repo,
+      repoDir: path.relative(getHomeDir(), repo.repoDir),
+    })),
+  };
   const cariYamlPath = getCariYamlPath();
   fs.ensureFileSync(cariYamlPath);
-  fs.writeFileSync(cariYamlPath, yaml.stringify(cariYaml));
+  fs.writeFileSync(cariYamlPath, yaml.stringify(cariYamlWithRelativePath));
 };
 
 export const writeRulesToCariYaml = async (rules: SelectedRules) => {
@@ -41,11 +49,19 @@ export const getCariYaml = async (): Promise<CariYaml | undefined> => {
 
   try {
     const cariYaml = fs.readFileSync(cariYamlPath, "utf8");
-    return cariYamlSchema.parse(yaml.parse(cariYaml));
+    const parsedYaml = cariYamlSchema.parse(yaml.parse(cariYaml));
+    return {
+      ...parsedYaml,
+      repos: parsedYaml.repos.map((repo) => ({
+        ...repo,
+        repoDir: path.join(getHomeDir(), repo.repoDir),
+      })),
+    };
   } catch (error) {
     errorMessage(
       "Failed to parse existing .cari.yaml file. Please remove the file and run 'cari init' to re-initialize the project."
     );
+    console.log({ error });
     return undefined;
   }
 };

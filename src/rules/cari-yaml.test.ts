@@ -6,9 +6,10 @@ import mockFs from "mock-fs";
 import path from "path";
 import {
   getCariYaml,
-  SelectedRules,
   writeRulesToCariYaml,
+  writeNewCariYamlFile,
 } from "./cari-yaml.js";
+import { SelectedRules } from "./types.js";
 
 const selectedRules: SelectedRules = {
   include: [
@@ -46,7 +47,7 @@ const existingYaml = {
     {
       orgName: "OldOrg",
       repoName: "old-repo",
-      repoDir: "/home/user/old-repo",
+      repoDir: "old-repo",
       repoUrl: "https://github.com/OldOrg/old-repo",
     },
   ],
@@ -66,6 +67,14 @@ const existingYaml = {
     exclude: [],
   },
 };
+
+const homeDir = vi.hoisted(() => "/home/user");
+
+vi.mock("os", () => ({
+  default: {
+    homedir: vi.fn().mockImplementation(() => homeDir),
+  },
+}));
 
 const projectDir = "/home/user/my-project";
 
@@ -115,11 +124,54 @@ describe("writeSelectedRulesToProject", () => {
 });
 
 describe("getCariYaml", () => {
-  it("should return the cari yaml object", async () => {
+  it("should return the cari yaml object with absolute paths", async () => {
     mockFs({
       [cariYamlPath]: yaml.stringify(existingYaml),
     });
-    const cariYaml = await getCariYaml();
-    expect(cariYaml).toEqual(existingYaml);
+    const gottenCariYaml = await getCariYaml();
+    console.log({ gottenCariYaml });
+    expect(gottenCariYaml?.rules).toEqual(existingYaml.rules);
+    expect(gottenCariYaml?.repos.length).toEqual(1);
+    const gottenRepo = gottenCariYaml?.repos[0];
+    const repoInYaml = existingYaml.repos[0];
+    expect(gottenRepo?.repoDir).toEqual(path.join(homeDir, "old-repo"));
+    expect(gottenRepo?.repoUrl).toEqual(repoInYaml.repoUrl);
+    expect(gottenRepo?.orgName).toEqual(repoInYaml.orgName);
+    expect(gottenRepo?.repoName).toEqual(repoInYaml.repoName);
+  });
+});
+
+describe("writeNewCariYamlFile", () => {
+  it("should create a new .cari.yaml file with absolute paths converted to relative", async () => {
+    mockFs({
+      [projectDir]: {},
+    });
+
+    const cariYaml = {
+      repos: [
+        {
+          orgName: "TestOrg",
+          repoName: "test-repo",
+          repoDir: path.join(homeDir, "test-repo"),
+          repoUrl: "https://github.com/TestOrg/test-repo",
+        },
+      ],
+      rules: {
+        include: [],
+        exclude: [],
+      },
+    };
+
+    await writeNewCariYamlFile(cariYaml);
+
+    expect(fs.existsSync(cariYamlPath)).toBe(true);
+    const fileContent = fs.readFileSync(cariYamlPath, "utf8");
+    const yamlContent = yaml.parse(fileContent);
+
+    expect(yamlContent.repos[0]).toEqual({
+      ...cariYaml.repos[0],
+      repoDir: "test-repo", // Should be relative to home directory
+    });
+    expect(yamlContent.rules).toEqual(cariYaml.rules);
   });
 });

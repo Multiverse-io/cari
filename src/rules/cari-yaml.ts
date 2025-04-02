@@ -5,7 +5,7 @@ import { errorMessage } from "../utils/user-message.js";
 import { CariYaml } from "./types.js";
 import { SelectedRules } from "./types.js";
 import { cariYamlSchema } from "./types.js";
-import { getHomeDir } from "~/utils/file.js";
+import { getHomeDir } from "../utils/file.js";
 export const writeNewCariYamlFile = async (cariYaml: CariYaml) => {
   const cariYamlWithRelativePath = {
     ...cariYaml,

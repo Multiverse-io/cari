@@ -15,7 +15,7 @@ import {
   happyMessage,
   warningMessage,
 } from "../utils/user-message.js";
-import { RepoRules, SelectedRules } from "~/rules/types.js";
+import { RepoRules, SelectedRules } from "../rules/types.js";
 
 /**
  * Initialize the AI Rules Installer

@@ -3,7 +3,7 @@ import mockFs from "mock-fs";
 import fs from "fs-extra";
 import yaml from "yaml";
 import { homeDir, projectDir } from "../__test__/test-utils.js";
-import { CariYaml } from "../rules/cari-yaml.js";
+import { CariYaml } from "../rules/types.js";
 import { update } from "./update.js";
 import os from "os";
 import { errorMessage, warningMessage } from "../utils/user-message.js";
@@ -16,6 +16,7 @@ vi.mock("~/utils/user-message.js", () => ({
 
 const gitMock = {
   pull: vi.fn().mockResolvedValue(undefined),
+  clone: vi.fn().mockImplementation(() => Promise.resolve(undefined)),
 };
 
 vi.mock("simple-git", () => ({
@@ -84,6 +85,75 @@ describe("update command", () => {
         "utf8"
       )
     ).toBe("New rule content!");
+  });
+
+  it("should clone repo if it doesn't exist locally", async () => {
+    const cariYamlObj: CariYaml = {
+      repos: [
+        {
+          orgName: "my-org",
+          repoName: "my-rules-repo",
+          repoDir: `.cari/my-org/my-rules-repo`,
+          repoUrl: "https://github.com/my-org/my-rules-repo",
+        },
+      ],
+      rules: {
+        include: [
+          {
+            org: "my-org",
+            repo: "my-rules-repo",
+            relativeFilePaths: [
+              {
+                fileName: "some-rule.mdc",
+                categoryFolderName: "category",
+              },
+            ],
+          },
+        ],
+        exclude: [],
+      },
+    };
+    const cariYaml = yaml.stringify(cariYamlObj);
+
+    // Setup mockFs without the central repo directory
+    mockFs({
+      // Config file for the project
+      [`${projectDir}/.cari.yaml`]: cariYaml,
+      // Old rule content in the project
+      [`${projectDir}/.cursor/rules/my-org/my-rules-repo/category/some-rule.mdc`]:
+        "Old rule content",
+      // Don't include the central repo directory to simulate it not existing
+    });
+
+    // Mock rule content that would be created after cloning
+    gitMock.clone.mockImplementationOnce(() => {
+      // Create the directory and rule file during the test to simulate successful cloning
+      fs.ensureDirSync(`${homeDir}/.cari/my-org/my-rules-repo/rules/category`);
+      fs.writeFileSync(
+        `${homeDir}/.cari/my-org/my-rules-repo/rules/category/some-rule.mdc`,
+        "New cloned rule content"
+      );
+      return Promise.resolve(undefined);
+    });
+
+    // Don't set any checkbox response because we shouldn't need to select rules in this case
+    checkboxMock.mockResolvedValue([]);
+
+    await update();
+
+    // Verify the clone was called
+    expect(gitMock.clone).toHaveBeenCalledWith(
+      "https://github.com/my-org/my-rules-repo",
+      `${homeDir}/.cari/my-org/my-rules-repo`
+    );
+
+    // Verify the rule was updated
+    expect(
+      fs.readFileSync(
+        `${projectDir}/.cursor/rules/my-org/my-rules-repo/category/some-rule.mdc`,
+        "utf8"
+      )
+    ).toBe("New cloned rule content");
   });
 
   it("should give an error if the .cari.yaml file is not found", async () => {

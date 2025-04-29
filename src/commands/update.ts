@@ -4,10 +4,12 @@ import {
   updateAndGetCentralRulesFromAriYaml,
   removeMissingCentralRulesFromCariYaml,
   writeRulesToProject,
+  cloneRulesRepoIfNotExists,
 } from "../rules/rules.js";
 import { askUserIfTheyWantToAddNewCentralRules } from "../prompting/update-prompts.js";
 import { RepoRules } from "../rules/types.js";
 import { CariYaml } from "../rules/types.js";
+import { createAriHomeDirIfNotExists } from "../utils/file.js";
 
 export const update = async (): Promise<void> => {
   happyMessage("Updating AI rules...");
@@ -15,6 +17,13 @@ export const update = async (): Promise<void> => {
   if (!cariYaml) {
     return;
   }
+
+  await createAriHomeDirIfNotExists();
+
+  for (const repo of cariYaml.repos) {
+    await cloneRulesRepoIfNotExists(repo.repoDir, repo.repoUrl);
+  }
+
   const centralRules: RepoRules[] = await updateAndGetCentralRulesFromAriYaml(
     cariYaml
   );

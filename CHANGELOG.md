@@ -1,5 +1,11 @@
 # cursor-ai-rules-installer
 
+## 0.2.2
+
+### Patch Changes
+
+- e42f2f5: Fix cari update command when your central cari dir doesn't exist
+
 ## 0.2.1
 
 ### Patch Changes

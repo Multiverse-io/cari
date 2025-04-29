@@ -1,4 +1,4 @@
-name: Release Github Package
+name: Release Packages
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
-  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  NPM_TOKEN: ${{secrets.NPM_TOKEN}}
 
 jobs:
   test:
@@ -35,7 +35,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20.10
-          registry-url: https://npm.pkg.github.com/
       - name: Setup Yarn
         run: corepack enable && corepack prepare yarn@4.7.0 --activate
       - run: yarn install --immutable
@@ -43,6 +42,6 @@ jobs:
       - name: Create Release Pull Request or Publish
         uses: changesets/action@v1
         with:
-          publish: yarn npm publish
+          publish: yarn npm publish --access public
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

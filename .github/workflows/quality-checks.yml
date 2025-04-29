@@ -6,9 +6,6 @@ on: [pull_request]
 jobs:
   run-quality-checks:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4

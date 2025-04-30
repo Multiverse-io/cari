@@ -9,7 +9,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -42,6 +42,7 @@ jobs:
       - name: Create Release Pull Request or Publish
         uses: changesets/action@v1
         with:
-          publish: yarn npm publish --access public
+          publish: yarn npm publish --access public && cp .yarnrc_github_pkg.yml .yarnrc.yml && yarn npm publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

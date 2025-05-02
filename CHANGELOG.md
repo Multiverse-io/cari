@@ -1,5 +1,11 @@
 # cursor-ai-rules-installer
 
+## 0.2.3
+
+### Patch Changes
+
+- 8c7387e: Minor version bump to test publishing CI process
+
 ## 0.2.2
 
 ### Patch Changes

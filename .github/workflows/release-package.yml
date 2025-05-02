@@ -32,6 +32,8 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20.10
@@ -43,7 +45,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: yarn npm publish --access public
+          publish: yarn changeset publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

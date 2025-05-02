@@ -40,6 +40,7 @@ jobs:
       - run: yarn install --immutable
       - run: yarn build
       - name: Create Release Pull Request or Publish
+        id: changesets
         uses: changesets/action@v1
         with:
           publish: yarn npm publish --access public

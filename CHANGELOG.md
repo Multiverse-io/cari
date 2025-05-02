@@ -1,5 +1,15 @@
 # cursor-ai-rules-installer
 
+## 0.3.0
+
+### Minor Changes
+
+- 9caaefb: Handle rules file in root directory or in nested directories
+
+### Patch Changes
+
+- 9caaefb: Gracefully handle nested rule folders and root level rules
+
 ## 0.2.3
 
 ### Patch Changes

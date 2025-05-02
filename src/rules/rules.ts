@@ -30,7 +30,10 @@ export const getCentralRules = async (
 
     const fileNames = relativeFilePaths.map((filePath) => {
       const fileName = path.basename(filePath);
-      const categoryFolderName = path.basename(path.dirname(filePath));
+      const rulesDir = path.join(repoDir, "rules");
+      const fileDir = path.dirname(filePath);
+      const categoryFolderName =
+        fileDir === rulesDir ? "" : path.relative(rulesDir, fileDir);
       return {
         fileName,
         categoryFolderName,
@@ -91,11 +94,10 @@ const getCentralRepoRulePath = (
   repo: string,
   relativeFilePath: RuleFilePath
 ) => {
+  const basePath = path.join(getAriHomeDir(), org, repo, "rules");
+
   return path.join(
-    getAriHomeDir(),
-    org,
-    repo,
-    "rules",
+    basePath,
     relativeFilePath.categoryFolderName,
     relativeFilePath.fileName
   );

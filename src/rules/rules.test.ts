@@ -83,6 +83,66 @@ describe("writeRulesToProject", () => {
       )
     ).toBe("some more rule content");
   });
+
+  it("should handle rules that are directly in the rules directory", async () => {
+    mockFs({
+      [projectDir]: {},
+      // File directly in the rules directory
+      "/home/user/.cari/org/repo/rules/root-rule.mdc": "root rule content",
+    });
+    const rules: RepoRules[] = [
+      {
+        org: "org",
+        repo: "repo",
+        relativeFilePaths: [
+          {
+            fileName: "root-rule.mdc",
+            categoryFolderName: "", // Empty for root-level rules
+          },
+        ],
+      },
+    ];
+    await writeRulesToProject(rules);
+
+    expect(
+      fs.readFileSync(
+        path.join(projectDir, ".cursor/rules/org/repo/root-rule.mdc"),
+        "utf8"
+      )
+    ).toBe("root rule content");
+  });
+
+  it("should handle rules with nested category folders", async () => {
+    mockFs({
+      [projectDir]: {},
+      // File in nested category directories
+      "/home/user/.cari/org/repo/rules/typescript/events/nested-rule.mdc":
+        "nested rule content",
+    });
+    const rules: RepoRules[] = [
+      {
+        org: "org",
+        repo: "repo",
+        relativeFilePaths: [
+          {
+            fileName: "nested-rule.mdc",
+            categoryFolderName: "typescript/events", // Nested path
+          },
+        ],
+      },
+    ];
+    await writeRulesToProject(rules);
+
+    expect(
+      fs.readFileSync(
+        path.join(
+          projectDir,
+          ".cursor/rules/org/repo/typescript/events/nested-rule.mdc"
+        ),
+        "utf8"
+      )
+    ).toBe("nested rule content");
+  });
 });
 
 describe("getCentralRules", () => {
@@ -152,6 +212,52 @@ describe("getCentralRules", () => {
         ],
       },
     ]);
+  });
+
+  it("should extract categoryFolderName as path relative to rules directory", async () => {
+    const mockFolderStructure = {
+      "/home/user/.cari/my-org/rules-repo": {
+        rules: {
+          // File directly in rules directory
+          "root-rule.mdc": "root rule content",
+          // File in category directory
+          category: {
+            "category-rule.mdc": "category rule content",
+          },
+          // File in nested category directories
+          typescript: {
+            events: {
+              "events-rule.mdc": "events rule content",
+            },
+          },
+        },
+      },
+    };
+
+    mockFs(mockFolderStructure);
+    const centralRules = await getCentralRules([
+      {
+        orgName: "my-org",
+        repoName: "rules-repo",
+        repoDir: "/home/user/.cari/my-org/rules-repo",
+      },
+    ]);
+
+    // Find each rule by filename and check its categoryFolderName
+    const rootRule = centralRules[0].relativeFilePaths.find(
+      (rule) => rule.fileName === "root-rule.mdc"
+    );
+    const categoryRule = centralRules[0].relativeFilePaths.find(
+      (rule) => rule.fileName === "category-rule.mdc"
+    );
+    const eventsRule = centralRules[0].relativeFilePaths.find(
+      (rule) => rule.fileName === "events-rule.mdc"
+    );
+
+    // Assert that categoryFolderName is correctly set
+    expect(rootRule?.categoryFolderName).toBe("");
+    expect(categoryRule?.categoryFolderName).toBe("category");
+    expect(eventsRule?.categoryFolderName).toBe("typescript/events");
   });
 
   it("should log a warning when a repo has no rules", async () => {

@@ -33,18 +33,21 @@ export const directoryChoice = (
   repo: string,
   directory: string,
   ruleRelativeFilePaths: RuleFilePath[]
-): PromptChoice<DirectoryChoice> => ({
-  name: `---> Whole directory: ${directory}`,
-  value: {
-    type: "directory",
-    org,
-    repo,
-    directory: directory,
-    ruleRelativeFilePaths,
-  },
-  short: `Dir: ${directory}`,
-  disabled: false,
-});
+): PromptChoice<DirectoryChoice> => {
+  const directoryForPrompt = directory === "" ? "root" : directory;
+  return {
+    name: `---> Files in directory: ${directoryForPrompt}`,
+    value: {
+      type: "directory",
+      org,
+      repo,
+      directory: directory,
+      ruleRelativeFilePaths,
+    },
+    short: `Dir: ${directory}`,
+    disabled: false,
+  };
+};
 
 export const fileChoice = (
   org: string,

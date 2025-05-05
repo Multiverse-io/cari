@@ -83,7 +83,7 @@ describe("init command", () => {
       },
     ]);
     await init();
-    expect(pathExists(`${homeDir}/.cari`)).resolves.toBe(true);
+    await expect(pathExists(`${homeDir}/.cari`)).resolves.toBe(true);
     expect(gitMock.clone).toHaveBeenCalledWith(
       repoUrl,
       `${homeDir}/.cari/my-org/ai-rules`
@@ -181,6 +181,29 @@ describe("init command", () => {
     await init();
     expect(warningMessageMock).toHaveBeenCalledWith(
       "No rules were selected to include. Please select at least one rule to include with <space> or press Ctrl-c to exit."
+    );
+  });
+
+  it("should exit with an error when no repositories are provided", async () => {
+    mockDirs(populatedAriHomeDir, emptyProjectDir);
+
+    // Mock empty input to simulate no repos being added
+    inputMock.mockResolvedValueOnce("");
+
+    // Suppress console.error messages because this test will throw an (expected) error
+    const consoleErrorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    const mockExit = vi.spyOn(process, "exit").mockImplementation((code) => {
+      throw new Error(`Process exited with code ${code}`);
+    });
+
+    // Expect the init function to throw the error from our mocked process.exit
+    await expect(init()).rejects.toThrow("Process exited with code 1");
+
+    expect(errorMessageMock).toHaveBeenCalledWith(
+      "No repositories were added. Please try again and enter at least one repository URL."
     );
   });
 });

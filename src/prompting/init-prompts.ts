@@ -12,8 +12,17 @@ import {
   normaliseSelectedRules,
 } from "../rules/rule-flattening.js";
 import { RepoRules, RuleFilePath, SelectedRules } from "../rules/types.js";
+import {
+  error,
+  ok,
+  Result,
+  userInputError,
+  UserInputError,
+} from "../utils/result.js";
 
-export const askUserToSelectRepos = async (): Promise<string[]> => {
+export const askUserToSelectRepos = async (): Promise<
+  Result<string[], UserInputError>
+> => {
   const repos: string[] = [];
   while (true) {
     const repoToAdd = await input({
@@ -24,7 +33,14 @@ export const askUserToSelectRepos = async (): Promise<string[]> => {
     }
     repos.push(repoToAdd);
   }
-  return repos;
+  if (repos.length === 0) {
+    return error(
+      userInputError(
+        "No repositories were added. Please try again and enter at least one repository URL."
+      )
+    );
+  }
+  return ok(repos);
 };
 
 export const askUserToSelectRules = async (

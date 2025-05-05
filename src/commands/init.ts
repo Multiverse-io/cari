@@ -23,8 +23,12 @@ import { RepoRules, SelectedRules } from "../rules/types.js";
 export const init = async (): Promise<void> => {
   try {
     const repoUrls = await askUserToSelectRepos();
+    if (!repoUrls.ok) {
+      errorMessage(repoUrls.error.message);
+      process.exit(1);
+    }
     await createAriHomeDirIfNotExists();
-    const allRepoDetails = repoUrls.map((repoUrl) =>
+    const allRepoDetails = repoUrls.value.map((repoUrl) =>
       extractRepoDetails(repoUrl)
     );
     for (const repoDetails of allRepoDetails) {

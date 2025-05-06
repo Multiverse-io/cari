@@ -1,5 +1,11 @@
 # cursor-ai-rules-installer
 
+## 0.3.1
+
+### Patch Changes
+
+- 5591b95: Gracefully handle user not entering any repo URLs during init
+
 ## 0.3.0
 
 ### Minor Changes

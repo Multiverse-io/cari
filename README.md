@@ -12,25 +12,18 @@ A command-line interface tool for installing and managing Cursor AI rules in you
 
 ## Installation
 
-We recommend adding it to your project:
-
-Yarn:
-
-```bash
-yarn add -D @multiverse-io/cari
-```
-
-npm:
-
-```bash
-npm install --save-dev @multiverse-io/cari
-```
-
-If you like you can install globally with:
+We recommend installing globally:
 
 ```bash
 npm install -g @multiverse-io/cari
 ```
+
+## The structure of an AI Rules repository
+
+- Cari works by taking rules from your central AI Rules repository and installing them to your project
+- The only requirement for a central rules repository is that it contains a top-level `rules` directory
+- Within the rules directory you should have your `*.mdc` rules files
+- These files can be nested within folders to help you organise them by category
 
 ### Initialize AI Rules
 
@@ -39,18 +32,12 @@ Initialize AI rules in your project:
 Yarn:
 
 ```bash
-yarn run cari init # Or `cari init` if installed globally
-```
-
-npm:
-
-```bash
-npx cari init # Or `cari init` if installed globally
+cari init
 ```
 
 This command will:
 
-1. Clone the AI rules repository in `~/.cari` if it doesn't exist
+1. Clone the AI rules repository(s) in `~/.cari` if it doesn't exist
 2. Find all available rule files
 3. Allow you to select which rules to include
 4. Create a configuration file (.cari.yaml) in your project
@@ -63,13 +50,7 @@ Update the AI rules in your project:
 Yarn:
 
 ```bash
-yarn run cari update # Or `cari update` if installed globally
-```
-
-npm:
-
-```bash
-npx cari update # Or `cari update` if installed globally
+cari update
 ```
 
 This command will:
@@ -84,7 +65,7 @@ This command will:
 ### Requirements
 
 - Node.js >= 14.0.0
-- Yarn >= 4.1.1 (recommended package manager)
+- Yarn >= 4.1.1
 
 ### Initial setup
 
@@ -92,17 +73,6 @@ This command will:
 # Clone the repository
 git clone git@github.com:Multiverse-io/cari.git
 cd cari
-
-# Set up GitHub authentication
-# 1. Create a GitHub Personal Access Token (PAT):
-#    - Go to GitHub.com → Settings → Developer Settings → Personal Access Tokens → Tokens (classic)
-#    - Generate a new token with scopes: read:packages, repo
-# 2. Set the token as an environment variable:
-export GITHUB_TOKEN=your_github_token_here
-#    Or create a .env file in the project root with:
-#    GITHUB_TOKEN=your_github_token_here
-
-# Install dependencies
 yarn install
 ```
 
@@ -111,8 +81,8 @@ yarn install
 ```bash
 # Run in development mode
 yarn dev
-yarn dev init # Run the init command
-yarn dev update # Run the update command
+yarn dev init 
+yarn dev update 
 
 # Build the project
 yarn build

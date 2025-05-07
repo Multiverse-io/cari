@@ -43,6 +43,8 @@ This command will:
 4. Create a configuration file (.cari.yaml) in your project
 5. Copy the selected rule files to your project
 
+![Init Demo](assets/init.gif)
+
 ### Update AI Rules
 
 Update the AI rules in your project:
@@ -59,6 +61,8 @@ This command will:
 2. Check your configuration file (.cari.yaml) for included rules
 3. Copy the latest version of those rules to your project
 4. Ask if you want to include any new central rules it finds
+
+![Update Demo](assets/update.gif)
 
 ## For Contributors
 

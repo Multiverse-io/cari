@@ -4,7 +4,9 @@
   "description": "A CLI tool for installing AI rules for Cursor",
   "type": "module",
   "main": "dist/index.js",
-  "bin": "./dist/index.js",
+  "bin": {
+    "cari": "./dist/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
